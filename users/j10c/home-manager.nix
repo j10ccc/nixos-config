@@ -66,4 +66,9 @@
     enable = true;
     enableFishIntegration = true;
   };
+
+  programs.eza = {
+    enable = true;
+    enableFishIntegration = true;
+  };
 }

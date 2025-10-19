@@ -12,7 +12,6 @@
     direnv
     vivid
     nixfmt-classic
-    tre-command
   ];
 
   fonts.packages = with pkgs; [
