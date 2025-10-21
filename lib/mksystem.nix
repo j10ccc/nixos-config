@@ -13,12 +13,14 @@ let
 
 in systemFunc rec {
   modules = [
-    { 
+    ({ config, ... }: {
       # Global system configuration
       nixpkgs.config.allowUnfree = true;
       nix.settings.experimental-features = "nix-command flakes";
       security.pam.services.sudo_local.touchIdAuth = true;
-    }
+      # @see https://github.com/zhaofengli/nix-homebrew/issues/5#issuecomment-2412587886
+      homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+    })
     hostConfig
     userOSConfig
     home-manager.home-manager
