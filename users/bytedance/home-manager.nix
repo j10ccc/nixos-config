@@ -20,11 +20,6 @@
     bat-extras.prettybat
   ];
 
-  # misc files
-  home.file = {
-    ".gitignore_global" = { source = ../../modules/misc/.gitignore_global; };
-  };
-
   home.file.".config/wezterm" = {
     source = ../../modules/wezterm;
     recursive = true;
@@ -47,10 +42,12 @@
 
   programs.git = {
     enable = true;
-    extraConfig = {
-      init.defaultBranch = "master";
-      core.excludesFile = "~/.gitignore_global";
-    };
+    ignores = [
+      ".envrc" # direnv
+      "devbox.json" # devbox
+      "devbox.lock"
+    ];
+    includes = [{ contents = { init.defaultBranch = "master"; }; }];
   };
 
   programs.fish = {

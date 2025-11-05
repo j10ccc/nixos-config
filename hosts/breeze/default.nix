@@ -16,7 +16,7 @@
 
   fonts.packages = with pkgs; [
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     nerd-fonts.blex-mono
     nerd-fonts.monaspace
   ];

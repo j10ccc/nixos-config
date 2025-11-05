@@ -16,11 +16,6 @@
     whistle
   ];
 
-  # misc files
-  home.file = {
-    ".gitignore_global" = { source = ../../modules/misc/.gitignore_global; };
-  };
-
   home.file.".config/wezterm" = {
     source = ../../modules/wezterm;
     recursive = true;
@@ -43,12 +38,20 @@
 
   programs.git = {
     enable = true;
-    userName = "j10c";
-    userEmail = "blyb1739@gmail.com";
-    extraConfig = {
-      init.defaultBranch = "master";
-      core.excludesFile = "~/.gitignore_global";
-    };
+    ignores = [
+      ".envrc" # direnv
+      "devbox.json" # devbox
+      "devbox.lock"
+    ];
+    includes = [{
+      contents = {
+        user = {
+          name = "j10c";
+          email = "blyb1739@gmail.com";
+        };
+        init.defaultBranch = "master";
+      };
+    }];
   };
 
   programs.fish = {
