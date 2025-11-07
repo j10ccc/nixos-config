@@ -1,16 +1,21 @@
 {
+  "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
   "context": {
     "includeDirectories": [
       "/tmp"
     ]
   },
   "general": {
+    "disableUpdateNag": true,
     "disableAutoUpdate": true,
-    "vimMode": true
+    "vimMode": false
   },
   "ide": {
     "enabled": true,
     "hasSeenNudge": true
+  },
+  "model": {
+    "name": "gemini-2.5-flash"
   },
   "security": {
     "auth": {
@@ -18,7 +23,8 @@
     }
   },
   "ui": {
-    "disableUpdateNag": true,
-    "hideBanner": true
+    "hideBanner": true,
+    "showLineNumbers": false,
+    "useFullWidth": true
   }
 }
