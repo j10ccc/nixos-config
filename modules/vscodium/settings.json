@@ -89,8 +89,7 @@
   "vim.normalModeKeyBindings": [
     {
       "before": [
-        "tab",
-        "h"
+        "H"
       ],
       "commands": [
         "workbench.action.previousEditor"
@@ -98,8 +97,7 @@
     },
     {
       "before": [
-        "tab",
-        "l"
+        "L"
       ],
       "commands": [
         "workbench.action.nextEditor"
