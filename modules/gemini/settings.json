@@ -25,6 +25,11 @@
   "ui": {
     "hideBanner": true,
     "showLineNumbers": false,
-    "useFullWidth": true
+    "useFullWidth": true,
+    "theme": "ANSI",
+    "footer": {
+      "hideSandboxStatus": true,
+      "hideCWD": true
+    }
   }
 }
