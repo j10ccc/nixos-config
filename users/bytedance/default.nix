@@ -20,7 +20,6 @@
       "telegram"
       "tencent-lemon"
       "aldente"
-      "mitmproxy"
       "logi-options+"
       "apifox"
       "google-chrome"
