@@ -31,7 +31,12 @@
   };
 
   home.file."Library/Application Support/VSCodium/User" = {
-    source = ../../modules/vscodium;
+    source = ../../modules/code-oss;
+    recursive = true;
+  };
+
+  home.file."Library/Application Support/Trae CN/User" = {
+    source = ../../modules/code-oss;
     recursive = true;
   };
 

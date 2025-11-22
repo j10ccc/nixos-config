@@ -25,6 +25,7 @@
   "editor.fontLigatures": "'liga', 'ss01', 'cv11'",
   "editor.fontSize": 16,
   "editor.formatOnSave": true,
+  "editor.lineHeight": 24,
   "editor.minimap.enabled": false,
   "editor.tabSize": 2,
   "editor.useTabStops": false,
