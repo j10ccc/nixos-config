@@ -14,6 +14,7 @@
     wezterm
     localsend
     whistle
+    antigravity
   ];
 
   home.file.".config/wezterm" = {
@@ -27,7 +28,12 @@
   };
 
   home.file."Library/Application Support/VSCodium/User" = {
-    source = ../../modules/vscodium;
+    source = ../../modules/code-oss;
+    recursive = true;
+  };
+
+  home.file."Library/Application Support/Antigravity/User" = {
+    source = ../../modules/code-oss;
     recursive = true;
   };
 
