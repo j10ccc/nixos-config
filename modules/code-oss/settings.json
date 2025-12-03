@@ -68,6 +68,7 @@
     "markdown",
     "astro"
   ],
+  "security.promptForLocalFileProtocolHandling": false,
   "terminal.integrated.defaultProfile.osx": "fish",
   "terminal.integrated.fontSize": 14,
   "terminal.integrated.stickyScroll.enabled": false,
