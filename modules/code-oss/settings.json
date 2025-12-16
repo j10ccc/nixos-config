@@ -68,6 +68,9 @@
     "markdown",
     "astro"
   ],
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
   "security.promptForLocalFileProtocolHandling": false,
   "terminal.integrated.defaultProfile.osx": "fish",
   "terminal.integrated.fontSize": 14,
@@ -78,6 +81,8 @@
   "vim.easymotionMarkerForegroundColorTwoCharFirst": "#5e81ac",
   "vim.easymotionMarkerForegroundColorTwoCharSecond": "#81a1c1",
   "vim.foldfix": true,
+  "vim.hlsearch": true,
+  "vim.incsearch": true,
   "vim.insertModeKeyBindings": [
     {
       "before": [
@@ -155,6 +160,23 @@
       ]
     }
   ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<Esc>"
+      ],
+      "when": [
+        "editorFocus"
+      ],
+      "commands": [
+        ":nohl"
+      ],
+      "silent": true
+    }
+  ],
+  "vim.searchHighlightColor": "#f6ff0080",
+  "vim.searchHighlightTextColor": "#fff",
+  "vim.surround": true,
   "window.commandCenter": false,
   "window.confirmBeforeClose": "keyboardOnly",
   "window.customTitleBarVisibility": "never",
