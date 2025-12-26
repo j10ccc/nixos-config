@@ -23,6 +23,7 @@
       "logi-options+"
       "apifox"
       "google-chrome"
+      "ghostty"
     ];
     masApps = {
       "TickTick" = 966085870;

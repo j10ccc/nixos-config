@@ -1,0 +1,12 @@
+command = /run/current-system/sw/bin/fish -l
+
+font-family = "MonaspiceNe Nerd Font Mono"
+font-family = "Noto Sans CJK SC"
+font-size = 16
+
+font-feature = 'calt' off, 'liga', 'ss01', 'cv11'
+
+theme = nord
+
+window-padding-x = 8
+window-padding-y = 8

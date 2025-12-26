@@ -14,11 +14,15 @@
     wezterm
     localsend
     whistle
-    antigravity
   ];
 
   home.file.".config/wezterm" = {
     source = ../../modules/wezterm;
+    recursive = true;
+  };
+
+  home.file.".config/ghostty" = {
+    source = ../../modules/ghostty;
     recursive = true;
   };
 

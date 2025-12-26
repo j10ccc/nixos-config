@@ -27,6 +27,9 @@
       "apifox"
       "wechatwebdevtools"
       "adobe-creative-cloud"
+      "moonlight"
+      "antigravity"
+      "ghostty"
     ];
     masApps = {
       "TickTick" = 966085870;

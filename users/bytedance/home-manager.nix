@@ -25,6 +25,11 @@
     recursive = true;
   };
 
+  home.file.".config/ghostty" = {
+    source = ../../modules/ghostty;
+    recursive = true;
+  };
+
   home.file.".config/fish" = {
     source = ../../modules/fish;
     recursive = true;
