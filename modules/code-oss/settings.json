@@ -22,7 +22,7 @@
   "editor.colorDecoratorsActivatedOn": "click",
   "editor.cursorBlinking": "solid",
   "editor.fontFamily": "'MonaspiceNe Nerd Font Mono', monospace, 'Noto Sans CJK SC'",
-  "editor.fontLigatures": "'liga', 'ss01', 'cv11'",
+  "editor.fontLigatures": "'calt' off, 'liga', 'ss01', 'cv11'",
   "editor.fontSize": 16,
   "editor.formatOnSave": true,
   "editor.lineHeight": 24,
