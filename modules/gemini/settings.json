@@ -8,14 +8,12 @@
   "general": {
     "disableUpdateNag": true,
     "disableAutoUpdate": true,
-    "vimMode": false
+    "vimMode": false,
+    "previewFeatures": true
   },
   "ide": {
     "enabled": true,
     "hasSeenNudge": true
-  },
-  "model": {
-    "name": "gemini-2.5-flash"
   },
   "security": {
     "auth": {
