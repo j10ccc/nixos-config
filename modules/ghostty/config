@@ -6,6 +6,8 @@ font-size = 16
 
 font-feature = 'calt' off, 'liga', 'ss01', 'cv11'
 
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
 theme = nord
 
 window-padding-x = 8

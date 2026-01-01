@@ -22,7 +22,6 @@
       "aldente"
       "docker-desktop"
       "obsidian"
-      "vscodium"
       "clash-verge-rev"
       "apifox"
       "wechatwebdevtools"

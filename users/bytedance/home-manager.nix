@@ -6,9 +6,7 @@
 
   home.packages = with pkgs; [
     devbox
-    wezterm
     obsidian
-    vscodium
     localsend
     whistle
     pnpm
@@ -21,11 +19,6 @@
     uv
   ];
 
-  home.file.".config/wezterm" = {
-    source = ../../modules/wezterm;
-    recursive = true;
-  };
-
   home.file.".config/ghostty" = {
     source = ../../modules/ghostty;
     recursive = true;
@@ -33,11 +26,6 @@
 
   home.file.".config/fish" = {
     source = ../../modules/fish;
-    recursive = true;
-  };
-
-  home.file."Library/Application Support/VSCodium/User" = {
-    source = ../../modules/code-oss;
     recursive = true;
   };
 

@@ -11,15 +11,9 @@
     bun
     ni
     gemini-cli
-    wezterm
     localsend
     whistle
   ];
-
-  home.file.".config/wezterm" = {
-    source = ../../modules/wezterm;
-    recursive = true;
-  };
 
   home.file.".config/ghostty" = {
     source = ../../modules/ghostty;
@@ -28,11 +22,6 @@
 
   home.file.".config/fish" = {
     source = ../../modules/fish;
-    recursive = true;
-  };
-
-  home.file."Library/Application Support/VSCodium/User" = {
-    source = ../../modules/code-oss;
     recursive = true;
   };
 

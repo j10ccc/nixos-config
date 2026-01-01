@@ -14,7 +14,7 @@ The repository is structured as follows:
 
 - `flake.nix`: The main entry point for the Flake, defining all inputs and outputs.
 - `hosts/`: Contains per-host specific configurations.
-- `modules/`: Shared modules that can be used across different hosts (e.g., nvim, fish, wezterm).
+- `modules/`: Shared modules that can be used across different hosts (e.g., nvim, fish, ghostty).
 - `users/`: User-specific configurations managed by [home-manager](https://github.com/nix-community/home-manager).
 - `lib/`: Helper functions used for building the systems.
 
