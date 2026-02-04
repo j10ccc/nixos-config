@@ -18,6 +18,7 @@
     bun
     bat
     bat-extras.prettybat
+    uv
   ];
 
   home.file.".config/wezterm" = {

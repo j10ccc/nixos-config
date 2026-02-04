@@ -20,7 +20,6 @@
       "telegram"
       "tencent-lemon"
       "aldente"
-      "logi-options+"
       "apifox"
       "google-chrome"
       "ghostty"
