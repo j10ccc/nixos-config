@@ -13,6 +13,7 @@
     gemini-cli
     localsend
     whistle
+    gh
   ];
 
   home.file.".config/ghostty" = {

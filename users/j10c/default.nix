@@ -29,6 +29,7 @@
       "moonlight"
       "antigravity"
       "ghostty"
+      "balenaetcher"
     ];
     masApps = {
       "TickTick" = 966085870;

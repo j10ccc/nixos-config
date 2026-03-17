@@ -11,7 +11,7 @@
     fd
     direnv
     vivid
-    nixfmt-classic
+    nixfmt
   ];
 
   fonts.packages = with pkgs; [
