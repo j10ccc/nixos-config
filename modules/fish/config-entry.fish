@@ -4,8 +4,8 @@ set fish_greeting ""
 switch (uname)
     case Darwin
         source (dirname (status --current-filename))/config-osx.fish
-    case Linux
-        source (dirname (status --current-filename))/config-linux.fish
+    # case Linux
+    # source (dirname (status --current-filename))/config-linux.fish
 end
 
 # Local config
