@@ -53,6 +53,15 @@
 
   programs.fish = {
     enable = true;
+    loginShellInit = ''
+      # Ensure Nix profile paths are available when fish is the login shell
+      if test -e ~/.nix-profile/etc/profile.d/nix.fish
+        source ~/.nix-profile/etc/profile.d/nix.fish
+      end
+      if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+        source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+      end
+    '';
     interactiveShellInit = "source ~/.config/fish/config-entry.fish";
   };
 
