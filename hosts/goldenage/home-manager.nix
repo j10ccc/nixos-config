@@ -31,11 +31,6 @@
     recursive = true;
   };
 
-  home.file.".config/nvim" = {
-    source = ../../modules/nvim;
-    recursive = true;
-  };
-
   programs.git = {
     enable = true;
     ignores = [
@@ -43,15 +38,17 @@
       "devbox.json" # devbox
       "devbox.lock"
     ];
-    includes = [{
-      contents = {
-        user = {
-          name = "j10c";
-          email = "blyb1739@gmail.com";
+    includes = [
+      {
+        contents = {
+          user = {
+            name = "j10c";
+            email = "blyb1739@gmail.com";
+          };
+          init.defaultBranch = "master";
         };
-        init.defaultBranch = "master";
-      };
-    }];
+      }
+    ];
   };
 
   programs.fish = {
