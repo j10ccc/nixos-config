@@ -16,6 +16,15 @@ in systemFunc rec {
     ({ config, ... }: {
       # Global system configuration
       nixpkgs.config.allowUnfree = true;
+      nixpkgs.overlays = [
+        (final: prev: {
+          # Work around nixpkgs direnv build setting `CGO_ENABLED=0` while
+          # passing `-linkmode=external` (requires CGO).
+          direnv = prev.direnv.overrideAttrs (old: {
+            env = (old.env or { }) // { CGO_ENABLED = "1"; };
+          });
+        })
+      ];
       nix.settings.experimental-features = "nix-command flakes";
       security.pam.services.sudo_local.touchIdAuth = true;
       # @see https://github.com/zhaofengli/nix-homebrew/issues/5#issuecomment-2412587886
