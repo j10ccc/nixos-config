@@ -14,6 +14,7 @@
     localsend
     whistle
     gh
+    noti
   ];
 
   home.file.".config/ghostty" = {

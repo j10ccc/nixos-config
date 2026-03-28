@@ -17,6 +17,8 @@
     bat
     bat-extras.prettybat
     uv
+    gh
+    noti
   ];
 
   home.file.".config/ghostty" = {
