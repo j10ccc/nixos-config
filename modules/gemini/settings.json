@@ -1,15 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
-  "context": {
-    "includeDirectories": [
-      "/tmp"
-    ]
-  },
   "general": {
-    "disableUpdateNag": true,
-    "disableAutoUpdate": true,
     "vimMode": false,
-    "previewFeatures": true
+    "enableNotifications": true,
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "30d",
+      "maxCount": 100
+    }
   },
   "ide": {
     "enabled": true,
@@ -23,11 +21,10 @@
   "ui": {
     "hideBanner": true,
     "showLineNumbers": false,
-    "useFullWidth": true,
     "theme": "ANSI",
     "footer": {
       "hideSandboxStatus": true,
-      "hideCWD": true
+      "hideCWD": false
     }
   }
 }
