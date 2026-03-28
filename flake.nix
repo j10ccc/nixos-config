@@ -22,20 +22,36 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, home-manager, nixpkgs, nix-homebrew
-    , homebrew-core, homebrew-cask, }:
-    let mkSystem = import ./lib/mksystem.nix { inherit nixpkgs inputs; };
-    in {
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      home-manager,
+      nixpkgs,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
+    }:
+    let
+      mkSystem = import ./lib/mksystem.nix { inherit nixpkgs inputs; };
+    in
+    {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#simple
-      darwinConfigurations.Breeze =
-        mkSystem "breeze" { system = "darwin"; user = "j10c"; };
-      darwinConfigurations.Midnight =
-        mkSystem "midnight" { system = "darwin"; user = "bytedance"; };
+      darwinConfigurations.Breeze = mkSystem "breeze" {
+        system = "darwin";
+        user = "j10c";
+      };
+      darwinConfigurations.Midnight = mkSystem "midnight" {
+        system = "darwin";
+        user = "bytedance";
+      };
 
       # Build NixOS home-manager flake using:
       # $ home-manager switch --flake .#j10c@goldenage
-      homeConfigurations."j10c@goldenage" =
-        mkSystem "goldenage" { system = "linux"; user = "j10c"; };
+      homeConfigurations.Goldenage = mkSystem "goldenage" {
+        system = "linux";
+        user = "j10c";
+      };
     };
 }
