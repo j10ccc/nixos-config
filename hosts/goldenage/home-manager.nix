@@ -21,10 +21,10 @@
     lazygit
     noti
     bottom
-    sunshine
     uv
     go
     soco-cli
+    gnome-screenshot
   ];
 
   home.file.".config/fish" = {
@@ -39,6 +39,9 @@
 
   home.file.".config/systemd/user/nanobot-gateway.service".source =
     ../../modules/nanobot/nanobot-gateway.service;
+
+  home.file.".config/systemd/user/sunshine.service".source =
+    ../../modules/sunshine/sunshine.service;
 
   programs.home-manager.enable = true;
 
