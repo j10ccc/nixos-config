@@ -16,9 +16,15 @@
     pnpm
     bun
     ni
-    gemini-cli
+    gemini-cli-bin
     gh
+    lazygit
     noti
+    bottom
+    sunshine
+    uv
+    go
+    soco-cli
   ];
 
   home.file.".config/fish" = {
@@ -30,6 +36,9 @@
     source = ../../modules/gemini;
     recursive = true;
   };
+
+  home.file.".config/systemd/user/nanobot-gateway.service".source =
+    ../../modules/nanobot/nanobot-gateway.service;
 
   programs.home-manager.enable = true;
 

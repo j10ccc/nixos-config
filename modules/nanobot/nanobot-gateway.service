@@ -1,0 +1,15 @@
+[Unit]
+Description=nanobot - Ultra-Lightweight AI Assistant Gateway
+After=network.target
+
+[Service]
+WorkingDirectory=/home/j10c
+ExecStart=/home/j10c/.local/bin/nanobot gateway
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nanobot
+
+[Install]
+WantedBy=default.target

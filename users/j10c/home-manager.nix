@@ -15,6 +15,7 @@
     whistle
     gh
     noti
+    soco-cli
   ];
 
   home.file.".config/ghostty" = {
