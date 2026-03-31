@@ -6,6 +6,8 @@
   home.homeDirectory = /home/j10c;
 
   home.packages = with pkgs; [
+    toybox
+    gnumake
     neovim
     ripgrep
     fd
@@ -24,7 +26,7 @@
     uv
     go
     soco-cli
-    gnome-screenshot
+    viu
   ];
 
   home.file.".config/fish" = {
