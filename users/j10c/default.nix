@@ -30,13 +30,10 @@
       "antigravity"
       "ghostty"
       "balenaetcher"
+      "ticktick"
+      "feishu"
+      "wechat"
     ];
-    masApps = {
-      "TickTick" = 966085870;
-      "WeChat" = 836500024;
-      "QQ" = 451108668;
-      "Feishu" = 1551632588;
-    };
     onActivation = {
       upgrade = true;
       cleanup = "zap";
