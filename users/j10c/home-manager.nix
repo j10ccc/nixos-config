@@ -16,6 +16,8 @@
     gh
     noti
     soco-cli
+    tmux
+    xclip
   ];
 
   home.file.".config/ghostty" = {
@@ -28,6 +30,20 @@
     recursive = true;
   };
 
+  home.file.".config/tmux/tmux.conf" = {
+    source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-bridge" = {
+    source = ../../modules/smux/bin/tmux-bridge;
+    executable = true;
+  };
+
+  home.file.".local/bin/smux" = {
+    source = ../../modules/smux/bin/smux;
+    executable = true;
+  };
+
   home.file."Library/Application Support/Antigravity/User" = {
     source = ../../modules/code-oss;
     recursive = true;
@@ -35,6 +51,11 @@
 
   home.file.".gemini" = {
     source = ../../modules/gemini;
+    recursive = true;
+  };
+
+  home.file.".maid-bot" = {
+    source = ../../modules/maid-bot;
     recursive = true;
   };
 

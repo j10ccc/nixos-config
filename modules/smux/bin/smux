@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# smux — simplified CLI for Nix installation
+set -euo pipefail
+
+VERSION="1.0.0"
+
+usage() {
+  cat <<EOF
+smux — tmux setup for AI agents (Nix version)
+
+Usage: smux <command>
+
+Commands:
+  version     Print version
+  help        Show this help
+
+Note: Management commands (install/update/uninstall) are handled by Nix.
+EOF
+}
+
+case "${1:-help}" in
+  version|--version|-v) echo "smux $VERSION (Nix)" ;;
+  help|--help|-h) usage ;;
+  *) echo "Unknown command: $1. Run 'smux help' for usage." ; exit 1 ;;
+esac
