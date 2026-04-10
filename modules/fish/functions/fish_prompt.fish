@@ -5,6 +5,12 @@ function fish_prompt
     # Separate from mode prompt
     echo -n " "
 
+    # Display hostname when connected via SSH
+    if set -q SSH_CONNECTION
+        set_color yellow -b normal
+        echo -n "[$hostname] "
+    end
+
     # Display current path
     set_color blue -b normal
     echo -n "$cwd "

@@ -2,11 +2,11 @@
 export BREW_BIN="/opt/homebrew/bin"
 export PATH="$BREW_BIN:$PATH"
 
-# Pnpm
+# pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
-# Bun
+# bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
