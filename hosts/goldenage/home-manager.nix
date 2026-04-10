@@ -7,7 +7,6 @@
 
   home.packages = with pkgs; [
     toybox
-    gnumake
     neovim
     ripgrep
     fd
