@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Source: https://github.com/ShawnPana/smux/blob/main/scripts/tmux-bridge
+# Integrated for Nix by Gemini CLI
 # tmux-bridge — Agent-agnostic CLI for cross-pane communication in tmux.
 # Any tool that can run bash can use this to talk to other panes.
 set -euo pipefail

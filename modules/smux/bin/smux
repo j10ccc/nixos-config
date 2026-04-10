@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Modified from: https://github.com/ShawnPana/smux/blob/main/install.sh
+# Integrated for Nix by Gemini CLI
 # smux — simplified CLI for Nix installation
 set -euo pipefail
 
