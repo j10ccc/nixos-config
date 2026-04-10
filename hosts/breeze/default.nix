@@ -15,6 +15,8 @@
     tmux
   ];
 
+  environment.shells = [ pkgs.fish ];
+
   fonts.packages = with pkgs; [
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
