@@ -12,6 +12,7 @@
     direnv
     vivid
     nixfmt
+    tmux
   ];
 
   fonts.packages = with pkgs; [

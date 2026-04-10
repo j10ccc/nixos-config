@@ -26,11 +26,27 @@
     go
     soco-cli
     viu
+    tmux
+    xclip
   ];
 
   home.file.".config/fish" = {
     source = ../../modules/fish;
     recursive = true;
+  };
+
+  home.file.".config/tmux/tmux.conf" = {
+    source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-bridge" = {
+    source = ../../modules/smux/bin/tmux-bridge;
+    executable = true;
+  };
+
+  home.file.".local/bin/smux" = {
+    source = ../../modules/smux/bin/smux;
+    executable = true;
   };
 
   home.file.".gemini" = {
