@@ -28,6 +28,7 @@
     viu
     tmux
     xclip
+    claude-code
   ];
 
   home.file.".config/fish" = {
@@ -57,8 +58,7 @@
   home.file.".config/systemd/user/nanobot-gateway.service".source =
     ../../modules/nanobot/nanobot-gateway.service;
 
-  home.file.".config/systemd/user/sunshine.service".source =
-    ../../modules/sunshine/sunshine.service;
+  home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
 
   programs.home-manager.enable = true;
 

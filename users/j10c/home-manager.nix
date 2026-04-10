@@ -17,7 +17,7 @@
     noti
     soco-cli
     tmux
-    xclip
+    claude-code
   ];
 
   home.file.".config/ghostty" = {
@@ -52,6 +52,10 @@
   home.file.".gemini" = {
     source = ../../modules/gemini;
     recursive = true;
+  };
+
+  home.file.".claude/settings.json" = {
+    source = ../../modules/claude-code/settings.json;
   };
 
   programs.git = {
