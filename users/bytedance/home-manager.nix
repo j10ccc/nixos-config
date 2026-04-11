@@ -31,6 +31,20 @@
     recursive = true;
   };
 
+  home.file.".config/tmux/tmux.conf" = {
+    source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-bridge" = {
+    source = ../../modules/smux/bin/tmux-bridge;
+    executable = true;
+  };
+
+  home.file.".local/bin/smux" = {
+    source = ../../modules/smux/bin/smux;
+    executable = true;
+  };
+
   home.file."Library/Application Support/Trae CN/User" = {
     source = ../../modules/code-oss;
     recursive = true;

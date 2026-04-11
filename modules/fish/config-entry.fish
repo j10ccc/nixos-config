@@ -15,3 +15,6 @@ if test -f $FISH_LOCAL_CONFIG
 end
 
 set fish_key_bindings fish_hybrid_key_bindings
+
+# Custom binary path
+export PATH="$HOME/.local/bin:$PATH"

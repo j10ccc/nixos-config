@@ -1,4 +1,4 @@
-command = /run/current-system/sw/bin/fish -l
+command = /run/current-system/sw/bin/tmux
 
 font-family = "MonaspiceNe Nerd Font Mono"
 font-family = "Noto Sans CJK SC"
@@ -16,3 +16,5 @@ window-padding-y = 8
 window-title-font-family = "MonaspiceNe Nerd Font Mono"
 
 window-step-resize = true
+
+macos-option-as-alt = true

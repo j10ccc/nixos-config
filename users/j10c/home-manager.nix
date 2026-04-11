@@ -16,6 +16,8 @@
     gh
     noti
     soco-cli
+    tmux
+    claude-code
   ];
 
   home.file.".config/ghostty" = {
@@ -28,6 +30,20 @@
     recursive = true;
   };
 
+  home.file.".config/tmux/tmux.conf" = {
+    source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-bridge" = {
+    source = ../../modules/smux/bin/tmux-bridge;
+    executable = true;
+  };
+
+  home.file.".local/bin/smux" = {
+    source = ../../modules/smux/bin/smux;
+    executable = true;
+  };
+
   home.file."Library/Application Support/Antigravity/User" = {
     source = ../../modules/code-oss;
     recursive = true;
@@ -38,6 +54,10 @@
     recursive = true;
   };
 
+  home.file.".claude/settings.json" = {
+    source = ../../modules/claude-code/settings.json;
+  };
+
   programs.git = {
     enable = true;
     ignores = [
@@ -45,15 +65,17 @@
       "devbox.json" # devbox
       "devbox.lock"
     ];
-    includes = [{
-      contents = {
-        user = {
-          name = "j10c";
-          email = "blyb1739@gmail.com";
+    includes = [
+      {
+        contents = {
+          user = {
+            name = "j10c";
+            email = "blyb1739@gmail.com";
+          };
+          init.defaultBranch = "master";
         };
-        init.defaultBranch = "master";
-      };
-    }];
+      }
+    ];
   };
 
   programs.fish = {

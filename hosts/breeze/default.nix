@@ -12,7 +12,11 @@
     direnv
     vivid
     nixfmt
+    tmux
+    lazygit
   ];
+
+  environment.shells = [ pkgs.fish ];
 
   fonts.packages = with pkgs; [
     noto-fonts-cjk-sans

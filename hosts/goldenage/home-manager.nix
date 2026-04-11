@@ -7,7 +7,6 @@
 
   home.packages = with pkgs; [
     toybox
-    gnumake
     neovim
     ripgrep
     fd
@@ -27,11 +26,28 @@
     go
     soco-cli
     viu
+    tmux
+    xclip
+    claude-code
   ];
 
   home.file.".config/fish" = {
     source = ../../modules/fish;
     recursive = true;
+  };
+
+  home.file.".config/tmux/tmux.conf" = {
+    source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-bridge" = {
+    source = ../../modules/smux/bin/tmux-bridge;
+    executable = true;
+  };
+
+  home.file.".local/bin/smux" = {
+    source = ../../modules/smux/bin/smux;
+    executable = true;
   };
 
   home.file.".gemini" = {
@@ -42,8 +58,7 @@
   home.file.".config/systemd/user/nanobot-gateway.service".source =
     ../../modules/nanobot/nanobot-gateway.service;
 
-  home.file.".config/systemd/user/sunshine.service".source =
-    ../../modules/sunshine/sunshine.service;
+  home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
 
   programs.home-manager.enable = true;
 

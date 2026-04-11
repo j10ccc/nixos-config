@@ -2,3 +2,4 @@ modules/fish/config-local.fish
 modules/fish/fish_variables
 
 .DS_Store
+result
