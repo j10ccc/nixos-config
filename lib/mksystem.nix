@@ -30,6 +30,7 @@ let
         nixpkgs.overlays = commonOverlays;
         nix.settings.experimental-features = "nix-command flakes";
         security.pam.services.sudo_local.touchIdAuth = true;
+        security.pam.services.sudo_local.reattach = true;
         # @see https://github.com/zhaofengli/nix-homebrew/issues/5#issuecomment-2412587886
         homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
       })
