@@ -13,6 +13,7 @@
     vivid
     nixfmt
     tmux
+    lazygit
   ];
 
   environment.shells = [ pkgs.fish ];
