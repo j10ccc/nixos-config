@@ -1,11 +1,6 @@
 { ... }:
 
 {
-  programs.bat = {
-    enable = true;
-    config.theme = "Nord";
-  };
-
   programs.fzf = {
     enable = true;
     enableFishIntegration = true;

@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../modules/bat
     ../../modules/fzf
   ];
   home.username = "j10c";
