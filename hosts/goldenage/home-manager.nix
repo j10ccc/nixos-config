@@ -40,6 +40,11 @@
     source = ../../modules/smux/tmux.conf;
   };
 
+  home.file.".local/bin/tmux-buddy" = {
+    source = ../../modules/smux/bin/tmux-buddy;
+    executable = true;
+  };
+
   home.file.".local/bin/tmux-bridge" = {
     source = ../../modules/smux/bin/tmux-bridge;
     executable = true;
