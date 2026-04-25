@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ../../modules/bat
+    ../../modules/fzf
+  ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/bytedance;
 
@@ -14,7 +18,6 @@
     gemini-cli
     nodejs_24
     bun
-    bat
     bat-extras.prettybat
     uv
     gh
@@ -79,11 +82,6 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
-  };
-
-  programs.bat = {
-    enable = true;
-    config = { theme = "Nord"; };
   };
 
   programs.eza = {
