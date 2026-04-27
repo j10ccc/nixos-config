@@ -33,6 +33,7 @@
       "ticktick"
       "feishu"
       "wechat"
+      "claude"
     ];
     onActivation = {
       upgrade = true;
