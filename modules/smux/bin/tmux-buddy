@@ -19,8 +19,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
     mem_used_mb=$(( (pages_active + pages_wired + pages_compressed) * page_size / 1024 / 1024 ))
 
     # Swap on macOS
-    pages_swapped=$(vm_stat | awk '/Pages swapped out/ {gsub(/\./,"",$4); print $4}')
-    swap_used_mb=$(( pages_swapped * page_size / 1024 / 1024 ))
+    swap_used_mb=$(sysctl -n vm.swapusage | awk '{gsub(/M/,"",$6); printf "%.0f", $6}')
 else
     mem_total_mb=$(awk '/MemTotal/ {printf "%.0f", $2/1024}' /proc/meminfo)
     mem_available_mb=$(awk '/MemAvailable/ {printf "%.0f", $2/1024}' /proc/meminfo)
