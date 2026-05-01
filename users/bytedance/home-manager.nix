@@ -3,6 +3,7 @@
 {
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/bytedance;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     devbox
@@ -67,7 +68,14 @@
       "devbox.json" # devbox
       "devbox.lock"
     ];
-    includes = [{ contents = { init.defaultBranch = "master"; }; }];
+    includes = [
+      {
+        contents = {
+          core.editor = "nvim";
+          init.defaultBranch = "master";
+        };
+      }
+    ];
   };
 
   programs.fish = {
@@ -88,7 +96,9 @@
 
   programs.bat = {
     enable = true;
-    config = { theme = "Nord"; };
+    config = {
+      theme = "Nord";
+    };
   };
 
   programs.eza = {
