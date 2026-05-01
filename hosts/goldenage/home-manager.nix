@@ -4,6 +4,7 @@
   home.username = "j10c";
   home.stateVersion = "25.05";
   home.homeDirectory = /home/j10c;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     toybox
@@ -84,6 +85,7 @@
             name = "j10c";
             email = "blyb1739@gmail.com";
           };
+          core.editor = "nvim";
           init.defaultBranch = "master";
         };
       }
