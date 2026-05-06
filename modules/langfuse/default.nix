@@ -1,4 +1,11 @@
-{ ... }:
+# Prerequisites (not installed by this flake):
+#   - docker engine + docker compose plugin on PATH
+#   - the `docker` system group, with this user as a member
+#     (`sg docker -c ...` below depends on group membership)
+#   - the langfuse deployment repo cloned to ~/projects/langfuse,
+#     containing a docker-compose.yml. Upstream:
+#       https://github.com/langfuse/langfuse
+{ config, ... }:
 
 {
   systemd.user.services.langfuse = {
@@ -9,7 +16,7 @@
     Service = {
       Type = "oneshot";
       RemainAfterExit = true;
-      WorkingDirectory = "%h/projects/langfuse";
+      WorkingDirectory = "${config.home.homeDirectory}/projects/langfuse";
       TimeoutStartSec = 600;
       # `sg docker` keeps this working even if the user manager started
       # before j10c was added to the docker group.

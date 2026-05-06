@@ -1,4 +1,8 @@
-{ ... }:
+# Prerequisites (not installed by this flake):
+#   - same docker + docker-group prerequisites as langfuse
+#   - a litellm deployment dir at ~/projects/litellm with a
+#     docker-compose.yml (config + proxy stack)
+{ config, ... }:
 
 {
   systemd.user.services.litellm = {
@@ -9,7 +13,7 @@
     Service = {
       Type = "oneshot";
       RemainAfterExit = true;
-      WorkingDirectory = "%h/projects/litellm";
+      WorkingDirectory = "${config.home.homeDirectory}/projects/litellm";
       TimeoutStartSec = 300;
       ExecStart = ''/usr/bin/sg docker -c "/usr/bin/docker compose up -d --wait"'';
       ExecStop = ''/usr/bin/sg docker -c "/usr/bin/docker compose stop"'';

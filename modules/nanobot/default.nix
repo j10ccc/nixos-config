@@ -1,4 +1,7 @@
-{ ... }:
+# Prerequisites (not installed by this flake):
+#   - nanobot binary at ~/.local/bin/nanobot. Install with:
+#       uv tool install nanobot-ai
+{ config, ... }:
 
 {
   systemd.user.services.nanobot-gateway = {
@@ -7,8 +10,8 @@
       After = [ "network.target" ];
     };
     Service = {
-      WorkingDirectory = "/home/j10c";
-      ExecStart = "/home/j10c/.local/bin/nanobot gateway";
+      WorkingDirectory = "${config.home.homeDirectory}";
+      ExecStart = "${config.home.homeDirectory}/.local/bin/nanobot gateway";
       Restart = "always";
       RestartSec = 10;
       StandardOutput = "syslog";

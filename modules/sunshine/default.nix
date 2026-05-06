@@ -1,3 +1,8 @@
+# Prerequisites (not installed by this flake):
+#   - sunshine system package (provides /usr/bin/sunshine). On Ubuntu:
+#       sudo apt install sunshine
+#   - an active X session on DISPLAY=:0 (sunshine needs a graphical
+#     session to capture).
 { ... }:
 
 {
@@ -12,7 +17,7 @@
       RestartSec = 5;
       Environment = [
         "DISPLAY=:0"
-        "XDG_RUNTIME_DIR=/run/user/1000"
+        "XDG_RUNTIME_DIR=%t"
       ];
       StandardOutput = "syslog";
       StandardError = "syslog";
