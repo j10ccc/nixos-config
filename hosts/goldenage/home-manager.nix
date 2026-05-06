@@ -1,6 +1,14 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ../../modules/hermes
+    ../../modules/langfuse
+    ../../modules/litellm
+    ../../modules/nanobot
+    ../../modules/sunshine
+  ];
+
   home.username = "j10c";
   home.stateVersion = "25.05";
   home.homeDirectory = /home/j10c;
@@ -61,13 +69,6 @@
     recursive = true;
   };
 
-  home.file.".config/systemd/user/nanobot-gateway.service".source =
-    ../../modules/nanobot/nanobot-gateway.service;
-
-  home.file.".config/systemd/user/hermes-gateway.service".source =
-    ../../modules/hermes/hermes-gateway.service;
-
-  home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
 
   programs.home-manager.enable = true;
 
