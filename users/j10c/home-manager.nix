@@ -3,6 +3,7 @@
 {
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/j10c;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     devbox
@@ -78,6 +79,7 @@
             name = "j10c";
             email = "blyb1739@gmail.com";
           };
+          core.editor = "nvim";
           init.defaultBranch = "master";
         };
       }

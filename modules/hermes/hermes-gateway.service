@@ -1,0 +1,15 @@
+[Unit]
+Description=hermes - Personal AI Assistant Gateway
+After=network.target
+
+[Service]
+WorkingDirectory=/home/j10c
+ExecStart=/home/j10c/.nix-profile/bin/hermes gateway
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hermes-gateway
+
+[Install]
+WantedBy=default.target

@@ -4,6 +4,7 @@
   home.username = "j10c";
   home.stateVersion = "25.05";
   home.homeDirectory = /home/j10c;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     toybox
@@ -63,6 +64,9 @@
   home.file.".config/systemd/user/nanobot-gateway.service".source =
     ../../modules/nanobot/nanobot-gateway.service;
 
+  home.file.".config/systemd/user/hermes-gateway.service".source =
+    ../../modules/hermes/hermes-gateway.service;
+
   home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
 
   programs.home-manager.enable = true;
@@ -81,6 +85,7 @@
             name = "j10c";
             email = "blyb1739@gmail.com";
           };
+          core.editor = "nvim";
           init.defaultBranch = "master";
         };
       }
