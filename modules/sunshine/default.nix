@@ -1,0 +1,23 @@
+{ ... }:
+
+{
+  systemd.user.services.sunshine = {
+    Unit = {
+      Description = "Sunshine - Self-hosted game stream host for Moonlight";
+      After = [ "network.target" "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "/usr/bin/sunshine";
+      Restart = "always";
+      RestartSec = 5;
+      Environment = [
+        "DISPLAY=:0"
+        "XDG_RUNTIME_DIR=/run/user/1000"
+      ];
+      StandardOutput = "syslog";
+      StandardError = "syslog";
+      SyslogIdentifier = "sunshine";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+}
