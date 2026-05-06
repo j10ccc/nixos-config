@@ -67,6 +67,9 @@
   home.file.".config/systemd/user/hermes-gateway.service".source =
     ../../modules/hermes/hermes-gateway.service;
 
+  home.file.".config/systemd/user/default.target.wants/hermes-gateway.service".source =
+    ../../modules/hermes/hermes-gateway.service;
+
   home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
 
   programs.home-manager.enable = true;
