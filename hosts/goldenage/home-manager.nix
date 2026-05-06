@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ../../modules/bat
+    ../../modules/fzf
     ../../modules/hermes
     ../../modules/langfuse
     ../../modules/litellm
