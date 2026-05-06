@@ -64,13 +64,24 @@
   home.file.".config/systemd/user/nanobot-gateway.service".source =
     ../../modules/nanobot/nanobot-gateway.service;
 
-  home.file.".config/systemd/user/hermes-gateway.service".source =
-    ../../modules/hermes/hermes-gateway.service;
-
-  home.file.".config/systemd/user/default.target.wants/hermes-gateway.service".source =
-    ../../modules/hermes/hermes-gateway.service;
-
   home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
+
+  systemd.user.services.hermes-gateway = {
+    Unit = {
+      Description = "hermes - Personal AI Assistant Gateway";
+      After = [ "network.target" ];
+    };
+    Service = {
+      WorkingDirectory = "/home/j10c";
+      ExecStart = "/home/j10c/.nix-profile/bin/hermes gateway";
+      Restart = "always";
+      RestartSec = 10;
+      StandardOutput = "journal";
+      StandardError = "journal";
+      SyslogIdentifier = "hermes-gateway";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
 
   programs.home-manager.enable = true;
 
