@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# CPU
+if [[ "$(uname)" == "Darwin" ]]; then
+    cores=$(sysctl -n hw.logicalcpu)
+    cpu=$(ps -A -o %cpu | awk -v c="$cores" '{s+=$1} END {printf "%.0f", s/c}')
+else
+    cpu=$(awk 'NR==1 {printf "%.0f", (1-$5/($2+$3+$4+$5+$6+$7+$8))*100}' /proc/stat)
+fi
+
+# RAM
+if [[ "$(uname)" == "Darwin" ]]; then
+    mem_total=$(sysctl -n hw.memsize)
+    mem_total_mb=$((mem_total / 1024 / 1024))
+    page_size=$(sysctl -n hw.pagesize)
+    pages_active=$(vm_stat | awk '/Pages active/ {gsub(/\./,"",$3); print $3}')
+    pages_wired=$(vm_stat | awk '/Pages wired/ {gsub(/\./,"",$4); print $4}')
+    pages_compressed=$(vm_stat | awk '/Pages occupied by compressor/ {gsub(/\./,"",$5); print $5}')
+    mem_used_mb=$(( (pages_active + pages_wired + pages_compressed) * page_size / 1024 / 1024 ))
+
+    # Swap on macOS
+    swap_used_mb=$(sysctl -n vm.swapusage | awk '{gsub(/M/,"",$6); printf "%.0f", $6}')
+else
+    mem_total_mb=$(awk '/MemTotal/ {printf "%.0f", $2/1024}' /proc/meminfo)
+    mem_available_mb=$(awk '/MemAvailable/ {printf "%.0f", $2/1024}' /proc/meminfo)
+    mem_used_mb=$((mem_total_mb - mem_available_mb))
+    swap_used_mb=0
+fi
+
+# Format RAM in GB
+mem_used_gb=$(awk "BEGIN {printf \"%.1f\", $mem_used_mb/1024}")
+mem_total_gb=$(awk "BEGIN {printf \"%.0f\", $mem_total_mb/1024}")
+swap_used_gb=$(awk "BEGIN {printf \"%.1f\", $swap_used_mb/1024}")
+
+# Mood based on CPU load
+if   (( cpu < 10 )); then face="(　-ω-)zzZ"
+elif (( cpu < 30 )); then face="(・ω・)"
+elif (( cpu < 60 )); then face="(・∀・)"
+elif (( cpu < 80 )); then face="(>﹏<)"
+else                       face="(╯°□°)╯"
+fi
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    echo "$face  CPU: ${cpu}%  RAM: ${mem_used_gb}/${mem_total_gb}G  Swap: ${swap_used_gb}G"
+else
+    echo "$face  CPU: ${cpu}%  RAM: ${mem_used_gb}/${mem_total_gb}G"
+fi

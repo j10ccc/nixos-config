@@ -7,6 +7,7 @@
   ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/bytedance;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     devbox
@@ -38,6 +39,11 @@
     source = ../../modules/smux/tmux.conf;
   };
 
+  home.file.".local/bin/tmux-buddy" = {
+    source = ../../modules/smux/bin/tmux-buddy;
+    executable = true;
+  };
+
   home.file.".local/bin/tmux-bridge" = {
     source = ../../modules/smux/bin/tmux-bridge;
     executable = true;
@@ -65,7 +71,14 @@
       "devbox.json" # devbox
       "devbox.lock"
     ];
-    includes = [{ contents = { init.defaultBranch = "master"; }; }];
+    includes = [
+      {
+        contents = {
+          core.editor = "nvim";
+          init.defaultBranch = "master";
+        };
+      }
+    ];
   };
 
   programs.fish = {

@@ -7,6 +7,7 @@
   ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/j10c;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     devbox
@@ -37,6 +38,11 @@
 
   home.file.".config/tmux/tmux.conf" = {
     source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-buddy" = {
+    source = ../../modules/smux/bin/tmux-buddy;
+    executable = true;
   };
 
   home.file.".local/bin/tmux-bridge" = {
@@ -77,6 +83,7 @@
             name = "j10c";
             email = "blyb1739@gmail.com";
           };
+          core.editor = "nvim";
           init.defaultBranch = "master";
         };
       }
