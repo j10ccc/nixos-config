@@ -34,6 +34,7 @@
       "feishu"
       "wechat"
       "claude"
+      "typeless"
     ];
     onActivation = {
       upgrade = true;

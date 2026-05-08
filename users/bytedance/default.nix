@@ -26,6 +26,7 @@
       "apifox"
       "google-chrome"
       "ghostty"
+      "typeless"
     ];
     masApps = {
       "TickTick" = 966085870;
