@@ -9,7 +9,10 @@
 
   homebrew = {
     enable = true;
-    brews = [ "mas" "ast-grep" ];
+    brews = [
+      "mas"
+      "ast-grep"
+    ];
     casks = [
       "snipaste"
       "maccy"

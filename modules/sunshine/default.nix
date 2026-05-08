@@ -9,7 +9,10 @@
   systemd.user.services.sunshine = {
     Unit = {
       Description = "Sunshine - Self-hosted game stream host for Moonlight";
-      After = [ "network.target" "graphical-session.target" ];
+      After = [
+        "network.target"
+        "graphical-session.target"
+      ];
     };
     Service = {
       ExecStart = "/usr/bin/sunshine";
