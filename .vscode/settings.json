@@ -1,5 +1,15 @@
 {
   "[nix]": {
-    "editor.defaultFormatter": "jnoortheen.nix-ide"
+    "editor.defaultFormatter": "jnoortheen.nix-ide",
+    "editor.formatOnSave": true
   },
+  "nix.formatterPath": "nixfmt",
+  "nix.serverSettings": {
+    "nixd": {
+      "formatting": { "command": ["nixfmt"] }
+    },
+    "nil": {
+      "formatting": { "command": ["nixfmt"] }
+    }
+  }
 }
