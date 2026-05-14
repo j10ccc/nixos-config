@@ -20,6 +20,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    homebrew-detachhead-tap = {
+      url = "github:detachhead/homebrew-tap";
+      flake = false;
+    };
   };
 
   outputs =
@@ -31,6 +35,7 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      homebrew-detachhead-tap,
     }:
     let
       mkSystem = import ./lib/mksystem.nix { inherit nixpkgs inputs; };

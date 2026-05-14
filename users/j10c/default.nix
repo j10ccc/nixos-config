@@ -11,6 +11,7 @@
     enable = true;
     brews = [ "mas" ];
     casks = [
+      "detachhead/tap/rebased"
       "snipaste"
       "maccy"
       "iina"
