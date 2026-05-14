@@ -10,8 +10,9 @@
 #   export LANGFUSE_SECRET_KEY=sk-lf-xxx
 #   export LANGFUSE_BASE_URL=http://<langfuse-host>:<port>
 #
-# If the file is missing the hook exits 0 silently (the Python script's
-# TRACE_TO_LANGFUSE check fails-closed when the env is unset).
+# If TRACE_TO_LANGFUSE is not "true" on this host (toggle off, or no secrets
+# file at all), the wrapper exits 0 before paying the Python startup +
+# langfuse-SDK import cost.
 
 set -u
 
@@ -20,5 +21,7 @@ if [ -r "$SECRETS" ]; then
   # shellcheck disable=SC1090
   . "$SECRETS"
 fi
+
+[ "${TRACE_TO_LANGFUSE:-}" = "true" ] || exit 0
 
 exec python3 "${HOME}/.claude/hooks/langfuse_hook.py"
