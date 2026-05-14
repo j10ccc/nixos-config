@@ -33,7 +33,6 @@
       "ticktick"
       "feishu"
       "wechat"
-      "claude"
       "typeless"
     ];
     onActivation = {
