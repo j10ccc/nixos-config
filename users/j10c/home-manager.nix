@@ -69,6 +69,17 @@
     source = ../../modules/claude-code/settings.json;
   };
 
+  programs.lazygit = {
+    enable = true;
+    settings.gui = {
+      showCommandLog = false;
+      showBottomLine = false;
+      showRandomTip = false;
+      expandFocusedSidePanel = true;
+      sidePanelWidth = 0.25;
+    };
+  };
+
   programs.git = {
     enable = true;
     ignores = [

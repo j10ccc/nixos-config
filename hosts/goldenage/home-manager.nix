@@ -30,7 +30,6 @@
     ni
     gemini-cli-bin
     gh
-    lazygit
     noti
     bottom
     uv
@@ -72,6 +71,17 @@
   };
 
   programs.home-manager.enable = true;
+
+  programs.lazygit = {
+    enable = true;
+    settings.gui = {
+      showCommandLog = false;
+      showBottomLine = false;
+      showRandomTip = false;
+      expandFocusedSidePanel = true;
+      sidePanelWidth = 0.25;
+    };
+  };
 
   programs.git = {
     enable = true;
