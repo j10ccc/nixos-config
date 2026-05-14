@@ -1,0 +1,25 @@
+name: nixfmt
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    name: nixfmt --check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Check Nix formatting
+        run: |
+          set -euo pipefail
+          mapfile -d '' files < <(git ls-files -z '*.nix')
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "no .nix files found"
+            exit 0
+          fi
+          nix run nixpkgs#nixfmt-rfc-style -- --check "${files[@]}"

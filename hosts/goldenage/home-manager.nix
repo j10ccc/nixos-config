@@ -1,9 +1,20 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ../../modules/bat
+    ../../modules/fzf
+    ../../modules/hermes
+    ../../modules/langfuse
+    ../../modules/litellm
+    ../../modules/nanobot
+    ../../modules/sunshine
+  ];
+
   home.username = "j10c";
   home.stateVersion = "25.05";
   home.homeDirectory = /home/j10c;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     toybox
@@ -19,7 +30,6 @@
     ni
     gemini-cli-bin
     gh
-    lazygit
     noti
     bottom
     uv
@@ -40,6 +50,11 @@
     source = ../../modules/smux/tmux.conf;
   };
 
+  home.file.".local/bin/tmux-buddy" = {
+    source = ../../modules/smux/bin/tmux-buddy;
+    executable = true;
+  };
+
   home.file.".local/bin/tmux-bridge" = {
     source = ../../modules/smux/bin/tmux-bridge;
     executable = true;
@@ -55,12 +70,18 @@
     recursive = true;
   };
 
-  home.file.".config/systemd/user/nanobot-gateway.service".source =
-    ../../modules/nanobot/nanobot-gateway.service;
-
-  home.file.".config/systemd/user/sunshine.service".source = ../../modules/sunshine/sunshine.service;
-
   programs.home-manager.enable = true;
+
+  programs.lazygit = {
+    enable = true;
+    settings.gui = {
+      showCommandLog = false;
+      showBottomLine = false;
+      showRandomTip = false;
+      expandFocusedSidePanel = true;
+      sidePanelWidth = 0.25;
+    };
+  };
 
   programs.git = {
     enable = true;
@@ -76,6 +97,7 @@
             name = "j10c";
             email = "blyb1739@gmail.com";
           };
+          core.editor = "nvim";
           init.defaultBranch = "master";
         };
       }

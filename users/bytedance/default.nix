@@ -9,7 +9,10 @@
 
   homebrew = {
     enable = true;
-    brews = [ "mas" "ast-grep" ];
+    brews = [
+      "mas"
+      "ast-grep"
+    ];
     casks = [
       "snipaste"
       "maccy"
@@ -23,6 +26,7 @@
       "apifox"
       "google-chrome"
       "ghostty"
+      "typeless"
     ];
     masApps = {
       "TickTick" = 966085870;

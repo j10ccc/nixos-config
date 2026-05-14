@@ -1,8 +1,13 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ../../modules/bat
+    ../../modules/fzf
+  ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/j10c;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     devbox
@@ -38,6 +43,11 @@
     source = ../../modules/smux/tmux.conf;
   };
 
+  home.file.".local/bin/tmux-buddy" = {
+    source = ../../modules/smux/bin/tmux-buddy;
+    executable = true;
+  };
+
   home.file.".local/bin/tmux-bridge" = {
     source = ../../modules/smux/bin/tmux-bridge;
     executable = true;
@@ -71,6 +81,17 @@
     executable = true;
   };
 
+  programs.lazygit = {
+    enable = true;
+    settings.gui = {
+      showCommandLog = false;
+      showBottomLine = false;
+      showRandomTip = false;
+      expandFocusedSidePanel = true;
+      sidePanelWidth = 0.25;
+    };
+  };
+
   programs.git = {
     enable = true;
     ignores = [
@@ -85,6 +106,7 @@
             name = "j10c";
             email = "blyb1739@gmail.com";
           };
+          core.editor = "nvim";
           init.defaultBranch = "master";
         };
       }
@@ -112,18 +134,4 @@
     enableFishIntegration = true;
   };
 
-  programs.bat = {
-    enable = true;
-    config.theme = "Nord";
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableFishIntegration = true;
-    defaultCommand = "fd --type f --hidden --exclude .git";
-    changeDirWidgetCommand = "fd --type d --hidden --exclude .git";
-    fileWidgetCommand = "fd --type f --hidden --exclude .git";
-    fileWidgetOptions = [ "--ansi" "--preview 'bat --color=always --style=numbers --line-range=:500 {}'" "--preview-window 'right:60%'" ];
-    changeDirWidgetOptions = [ "--ansi" "--preview 'eza --tree --level=2 --color=always {}'" ];
-  };
 }

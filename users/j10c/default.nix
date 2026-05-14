@@ -11,6 +11,7 @@
     enable = true;
     brews = [ "mas" ];
     casks = [
+      "detachhead/tap/rebased"
       "snipaste"
       "maccy"
       "iina"
@@ -33,7 +34,7 @@
       "ticktick"
       "feishu"
       "wechat"
-      "claude"
+      "typeless"
     ];
     onActivation = {
       upgrade = true;

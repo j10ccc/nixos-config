@@ -1,8 +1,13 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ../../modules/bat
+    ../../modules/fzf
+  ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/bytedance;
+  home.sessionVariables.EDITOR = "nvim";
 
   home.packages = with pkgs; [
     devbox
@@ -14,7 +19,6 @@
     gemini-cli
     nodejs_24
     bun
-    bat
     bat-extras.prettybat
     uv
     gh
@@ -33,6 +37,11 @@
 
   home.file.".config/tmux/tmux.conf" = {
     source = ../../modules/smux/tmux.conf;
+  };
+
+  home.file.".local/bin/tmux-buddy" = {
+    source = ../../modules/smux/bin/tmux-buddy;
+    executable = true;
   };
 
   home.file.".local/bin/tmux-bridge" = {
@@ -62,7 +71,14 @@
       "devbox.json" # devbox
       "devbox.lock"
     ];
-    includes = [{ contents = { init.defaultBranch = "master"; }; }];
+    includes = [
+      {
+        contents = {
+          core.editor = "nvim";
+          init.defaultBranch = "master";
+        };
+      }
+    ];
   };
 
   programs.fish = {
@@ -79,11 +95,6 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
-  };
-
-  programs.bat = {
-    enable = true;
-    config = { theme = "Nord"; };
   };
 
   programs.eza = {

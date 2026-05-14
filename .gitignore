@@ -4,4 +4,4 @@ modules/fish/fish_variables
 .DS_Store
 result
 
-.claude/settings.local.json
+.claude/

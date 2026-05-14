@@ -9,15 +9,16 @@ let
   hostConfig = ../hosts/${name};
   userOSConfig = ../users/${user};
   userHMConfig =
-    if isDarwin then ../users/${user}/home-manager.nix
-    else ../hosts/${name}/home-manager.nix;
+    if isDarwin then ../users/${user}/home-manager.nix else ../hosts/${name}/home-manager.nix;
 
   commonOverlays = [
     (final: prev: {
       # Work around nixpkgs direnv build setting `CGO_ENABLED=0` while
       # passing `-linkmode=external` (requires CGO).
       direnv = prev.direnv.overrideAttrs (old: {
-        env = (old.env or { }) // { CGO_ENABLED = "1"; };
+        env = (old.env or { }) // {
+          CGO_ENABLED = "1";
+        };
       });
     })
   ];
@@ -25,15 +26,18 @@ let
   # Darwin: full system configuration via nix-darwin
   darwinResult = inputs.nix-darwin.lib.darwinSystem {
     modules = [
-      ({ config, ... }: {
-        nixpkgs.config.allowUnfree = true;
-        nixpkgs.overlays = commonOverlays;
-        nix.settings.experimental-features = "nix-command flakes";
-        security.pam.services.sudo_local.touchIdAuth = true;
-        security.pam.services.sudo_local.reattach = true;
-        # @see https://github.com/zhaofengli/nix-homebrew/issues/5#issuecomment-2412587886
-        homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
-      })
+      (
+        { config, ... }:
+        {
+          nixpkgs.config.allowUnfree = true;
+          nixpkgs.overlays = commonOverlays;
+          nix.settings.experimental-features = "nix-command flakes";
+          security.pam.services.sudo_local.touchIdAuth = true;
+          security.pam.services.sudo_local.reattach = true;
+          # @see https://github.com/zhaofengli/nix-homebrew/issues/5#issuecomment-2412587886
+          homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+        }
+      )
       hostConfig
       userOSConfig
       inputs.home-manager.darwinModules.home-manager
@@ -52,6 +56,7 @@ let
           taps = {
             "homebrew/homebrew-core" = inputs.homebrew-core;
             "homebrew/homebrew-cask" = inputs.homebrew-cask;
+            "detachhead/homebrew-tap" = inputs.homebrew-detachhead-tap;
           };
           # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
           mutableTaps = false;
@@ -70,4 +75,5 @@ let
     modules = [ userHMConfig ];
   };
 
-in if isDarwin then darwinResult else linuxResult
+in
+if isDarwin then darwinResult else linuxResult
