@@ -12,5 +12,88 @@
         ]
       }
     ]
+  },
+  "env": {
+    "SAFETY_NET_STRICT": "1",
+    "SAFETY_NET_PARANOID_INTERPRETERS": "1"
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*secret*)",
+      "Read(**/*credentials*)",
+      "Read(**/secrets/**)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.config/op/**)",
+      "Read(~/.config/gcloud/**)",
+      "Read(~/.kube/config)",
+      "Read(~/.netrc)",
+      "Read(~/.npmrc)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(npm publish:*)",
+      "Bash(pnpm publish:*)",
+      "Bash(bun publish:*)",
+      "Bash(npm install -g:*)",
+      "Bash(pnpm install -g:*)",
+      "Bash(bun install -g:*)",
+      "Bash(npm add -g:*)",
+      "Bash(pnpm add -g:*)",
+      "Bash(bun add -g:*)",
+      "Bash(su:*)"
+    ],
+    "ask": [
+      "Bash(sudo:*)",
+      "Bash(git push:*)",
+      "Bash(docker:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm install:*)",
+      "Bash(bun install:*)",
+      "Bash(npm add:*)",
+      "Bash(pnpm add:*)",
+      "Bash(bun add:*)",
+      "Bash(brew install:*)",
+      "WebFetch"
+    ],
+    "allow": [
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:support.claude.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:*.github.io)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": [
+      "docker *"
+    ],
+    "filesystem": {
+      "denyRead": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.gnupg",
+        "~/.config/op",
+        "~/.config/gcloud",
+        "~/.kube",
+        "~/.netrc"
+      ]
+    },
+    "network": {
+      "allowedDomains": [
+        "api.anthropic.com",
+        "github.com",
+        "raw.githubusercontent.com",
+        "objects.githubusercontent.com",
+        "codeload.github.com"
+      ]
+    }
   }
 }
