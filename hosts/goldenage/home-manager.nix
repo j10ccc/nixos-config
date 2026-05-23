@@ -39,6 +39,7 @@
     tmux
     xclip
     claude-code
+    tea
   ];
 
   home.file.".config/fish" = {
