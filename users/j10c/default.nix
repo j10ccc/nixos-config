@@ -13,7 +13,6 @@
     casks = [
       "snipaste"
       "maccy"
-      "iina"
       "ungoogled-chromium"
       "stats"
       "the-unarchiver"
