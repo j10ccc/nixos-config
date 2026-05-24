@@ -56,7 +56,6 @@ let
           taps = {
             "homebrew/homebrew-core" = inputs.homebrew-core;
             "homebrew/homebrew-cask" = inputs.homebrew-cask;
-            "detachhead/homebrew-tap" = inputs.homebrew-detachhead-tap;
           };
           # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
           mutableTaps = false;

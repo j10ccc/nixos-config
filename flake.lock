@@ -69,22 +69,6 @@
         "type": "github"
       }
     },
-    "homebrew-detachhead-tap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778508774,
-        "narHash": "sha256-0Qtl5442AVGOkkPLnZMgvS79CEVSHgPRdvahkOiDh7Y=",
-        "owner": "detachhead",
-        "repo": "homebrew-tap",
-        "rev": "a1a40bfe9a7535e856e4ab06ea968592e4fc557c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "detachhead",
-        "repo": "homebrew-tap",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -145,7 +129,6 @@
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
-        "homebrew-detachhead-tap": "homebrew-detachhead-tap",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs"
