@@ -9,7 +9,6 @@
     zoxide
     ripgrep
     fd
-    direnv
     vivid
     nixfmt
     tmux

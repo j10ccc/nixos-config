@@ -22,7 +22,6 @@
     neovim
     ripgrep
     fd
-    direnv
     nixfmt
     devbox
     nodejs_24
@@ -134,6 +133,11 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   programs.eza = {
