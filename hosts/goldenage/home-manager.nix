@@ -9,6 +9,7 @@
     ../../modules/litellm
     ../../modules/nanobot
     ../../modules/sunshine
+    ../../modules/lazygit
   ];
 
   home.username = "j10c";
@@ -88,17 +89,6 @@
   };
 
   programs.home-manager.enable = true;
-
-  programs.lazygit = {
-    enable = true;
-    settings.gui = {
-      showCommandLog = false;
-      showBottomLine = false;
-      showRandomTip = false;
-      expandFocusedSidePanel = true;
-      sidePanelWidth = 0.25;
-    };
-  };
 
   programs.git = {
     enable = true;

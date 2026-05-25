@@ -4,6 +4,7 @@
   imports = [
     ../../modules/bat
     ../../modules/fzf
+    ../../modules/lazygit
   ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/j10c;
@@ -81,17 +82,6 @@
   home.file.".claude/hooks/langfuse_hook.sh" = {
     source = ../../modules/claude-code/hooks/langfuse_hook.sh;
     executable = true;
-  };
-
-  programs.lazygit = {
-    enable = true;
-    settings.gui = {
-      showCommandLog = false;
-      showBottomLine = false;
-      showRandomTip = false;
-      expandFocusedSidePanel = true;
-      sidePanelWidth = 0.25;
-    };
   };
 
   programs.git = {

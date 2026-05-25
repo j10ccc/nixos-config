@@ -4,6 +4,7 @@
   imports = [
     ../../modules/bat
     ../../modules/fzf
+    ../../modules/lazygit
   ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/bytedance;
