@@ -2,7 +2,7 @@
 
 My configuration for macOS (via nix-darwin) ~~and NixOS(maybe in future)~~, managed with [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
-![Overview](../images/overview.png)
+![VSCodium](../images/vscodium.png)
 
 ### Philosophy
 
