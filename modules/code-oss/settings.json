@@ -193,7 +193,7 @@
   "workbench.editorAssociations": {
     "*.svg": "default"
   },
-  "workbench.iconTheme": "file-icons-colourless",
+  "workbench.iconTheme": "catppuccin noctis icons",
   "workbench.productIconTheme": "icons-carbon",
   "workbench.sideBar.location": "right",
   "workbench.startupEditor": "none"
