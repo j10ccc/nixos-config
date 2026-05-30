@@ -1,0 +1,28 @@
+name: cspell
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    name: cspell lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check spelling
+        run: |
+          set -euo pipefail
+          # modules/nvim is a git submodule (separate repo); skip it.
+          mapfile -d '' files < <(git ls-files -z ':!:modules/nvim/**')
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "no files found"
+            exit 0
+          fi
+          npx --yes cspell@latest lint --no-progress --config cspell.json "${files[@]}"
