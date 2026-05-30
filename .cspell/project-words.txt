@@ -1,6 +1,7 @@
 # Project-specific words for cspell. Keep alphabetically sorted (case-insensitive).
 # Add new entries here (or via the editor's "Add to dictionary" quick fix) rather
 # than in cspell.json so the CI `cspell` check stays green.
+afplay
 aldente
 AMPM
 apifox
