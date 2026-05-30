@@ -89,7 +89,8 @@
     enable = true;
     ignores = [
       ".envrc" # direnv
-      "devbox.json" # devbox
+      ".devbox" # devbox
+      "devbox.json"
       "devbox.lock"
     ];
     includes = [
