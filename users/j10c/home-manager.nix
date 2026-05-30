@@ -61,7 +61,7 @@
     executable = true;
   };
 
-  home.file."Library/Application Support/Antigravity/User" = {
+  home.file."Library/Application Support/VSCodium/User" = {
     source = ../../modules/code-oss;
     recursive = true;
   };

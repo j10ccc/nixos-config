@@ -26,13 +26,13 @@
       "wechatwebdevtools"
       "adobe-creative-cloud"
       "moonlight"
-      "antigravity"
       "ghostty"
       "balenaetcher"
       "ticktick"
       "feishu"
       "wechat"
       "typeless"
+      "vscodium"
     ];
     onActivation = {
       upgrade = true;
