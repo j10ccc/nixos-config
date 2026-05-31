@@ -1,7 +1,11 @@
 function fish_title
-    # Shown as the terminal title; tmux picks this up as #{pane_title},
-    # which the pane border uses to show the current host.
+    # Shown as the terminal title; tmux picks this up as #{pane_title}.
+    # Inside tmux, the pane border appends the cwd basename separately,
+    # so we emit just the host to avoid duplicating the path.
     set -l host (command hostname -s)
-    set -l cwd (prompt_pwd)
-    echo -n "$host: $cwd"
+    if set -q TMUX
+        echo -n "$host"
+    else
+        echo -n "$host: "(prompt_pwd)
+    end
 end

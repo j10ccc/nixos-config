@@ -11,9 +11,11 @@ function fish_prompt
         echo -n "[$hostname] "
     end
 
-    # Display current path
-    set_color blue -b normal
-    echo -n "$cwd "
+    # Display current path (skipped inside tmux — the pane border already shows it)
+    if not set -q TMUX
+        set_color blue -b normal
+        echo -n "$cwd "
+    end
 
     if not test "$TERM_PROGRAM" = "vscode"
         # Show git branch and dirty state
@@ -45,6 +47,9 @@ function fish_prompt
         echo -n '! '
         set_color normal
     end
+
+    set_color cyan -b normal
+    echo -n '~> '
 
     # Reset color for user input
     set_color normal
