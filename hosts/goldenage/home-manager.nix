@@ -38,6 +38,7 @@
     viu
     tmux
     xclip
+    jq
     claude-code
     # Python with langfuse SDK for the Claude Code Stop hook in modules/claude-code/hooks/.
     # The wrapper short-circuits when TRACE_TO_LANGFUSE is unset.

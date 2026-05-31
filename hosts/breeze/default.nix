@@ -12,6 +12,7 @@
     vivid
     nixfmt
     tmux
+    jq
   ];
 
   environment.shells = [ pkgs.fish ];

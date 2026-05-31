@@ -12,6 +12,7 @@
     vivid
     nixfmt
     tmux
+    jq
   ];
 
   fonts.packages = with pkgs; [
