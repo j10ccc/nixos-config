@@ -15,6 +15,12 @@
     jq
   ];
 
+  networking = {
+    hostName = "Midnight"; # DNS / TCP hostname
+    computerName = "Midnight"; # macOS "About This Mac" display name
+    localHostName = "Midnight"; # Bonjour / .local hostname
+  };
+
   fonts.packages = with pkgs; [
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif

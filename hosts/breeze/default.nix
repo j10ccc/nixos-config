@@ -17,6 +17,12 @@
 
   environment.shells = [ pkgs.fish ];
 
+  networking = {
+    hostName = "Breeze"; # DNS / TCP hostname
+    computerName = "Breeze"; # macOS "About This Mac" display name
+    localHostName = "Breeze"; # Bonjour / .local hostname
+  };
+
   fonts.packages = with pkgs; [
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
