@@ -7,7 +7,6 @@
     ../../modules/hermes
     ../../modules/langfuse
     ../../modules/litellm
-    ../../modules/nanobot
     ../../modules/sunshine
     ../../modules/lazygit
   ];
@@ -44,6 +43,7 @@
     # The wrapper short-circuits when TRACE_TO_LANGFUSE is unset.
     (python3.withPackages (ps: [ ps.langfuse ]))
     tea
+    caddy
   ];
 
   home.file.".config/fish" = {
