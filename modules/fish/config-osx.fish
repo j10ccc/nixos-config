@@ -17,3 +17,8 @@ end
 if test -d (brew --prefix)"/share/fish/vendor_completions.d"
     set -p fish_complete_path (brew --prefix)/share/fish/vendor_completions.d
 end
+
+# Claude Code hook sounds (consumed by ~/.claude/settings.json).
+# Full play command (player + file) so the hook is OS-agnostic.
+export CLAUDE_SOUND_NOTIFY="afplay /System/Library/Sounds/Glass.aiff"
+export CLAUDE_SOUND_STOP="afplay /System/Library/Sounds/Hero.aiff"
