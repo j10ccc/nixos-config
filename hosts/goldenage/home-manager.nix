@@ -6,7 +6,6 @@
     ../../modules/fzf
     ../../modules/hermes
     ../../modules/langfuse
-    ../../modules/litellm
     ../../modules/sunshine
     ../../modules/lazygit
   ];
