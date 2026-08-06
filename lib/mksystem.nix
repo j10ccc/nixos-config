@@ -44,6 +44,13 @@ let
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
+        # Apps that own their own config file (Claude Code rewrites
+        # ~/.claude/settings.json on /tui, /config, ...) replace our symlink with
+        # a regular file, which makes activation fail with "would be clobbered".
+        # Move the stray file aside instead. overwriteBackup is needed because the
+        # clobber recurs, and a pre-existing backup is itself a collision error.
+        home-manager.backupFileExtension = "hm-bak";
+        home-manager.overwriteBackup = true;
         home-manager.users.${user} = import userHMConfig;
       }
       inputs.nix-homebrew.darwinModules.nix-homebrew
