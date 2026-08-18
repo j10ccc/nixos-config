@@ -35,6 +35,7 @@
     soco-cli
     viu
     tmux
+    zellij
     xclip
     jq
     claude-code

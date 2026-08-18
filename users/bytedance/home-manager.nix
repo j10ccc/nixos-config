@@ -24,6 +24,7 @@
     uv
     gh
     noti
+    zellij
     claude-code
     lazygit
     worktrunk

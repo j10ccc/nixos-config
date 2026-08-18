@@ -24,6 +24,7 @@
     noti
     soco-cli
     tmux
+    zellij
     claude-code
     lazygit
     worktrunk
