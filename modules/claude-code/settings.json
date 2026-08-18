@@ -70,9 +70,7 @@
     "ask": [
       "Bash(sudo:*)",
       "Bash(git push:*)",
-      "Bash(docker:*)",
       "Bash(npm install:*)",
-      "Bash(pnpm install:*)",
       "Bash(bun install:*)",
       "Bash(npm add:*)",
       "Bash(pnpm add:*)",
