@@ -1,0 +1,384 @@
+#!/usr/bin/env bash
+# zellij-bridge — 给 AI agent 用的跨 pane 通信 CLI，是原来 modules/smux/bin/tmux-bridge
+# 的 zellij 版。任何能跑 bash 的工具都能用它跟别的 pane 说话。
+#
+# 和 tmux 版的对应关系：
+#   tmux -S <socket>              → zellij -s <session>
+#   list-panes -F ...             → action list-panes --all --json（要 jq）
+#   capture-pane -p -S -N         → action dump-screen -p <id> --full
+#   send-keys -l -- <text>        → action write-chars -p <id> -- <text>
+#   send-keys <key>               → action send-keys -p <id> <key>
+#   set-option -p @name <label>   → action rename-pane -p <id> <label>（标签就是 pane 标题）
+#
+# 两处行为差异，用之前先知道：
+#   1. tmux 版的 @name 是不显示的私有变量，zellij 没有 per-pane 用户变量，
+#      标签直接落在 pane 标题上 —— 会显示在 pane 边框里，也会被 rename-pane 覆盖。
+#   2. zellij 的 list-panes 不给 pane 的 cwd 和 pid，所以 list 里没有 CWD 列，
+#      换成 TAB 和 COMMAND 两列。
+set -euo pipefail
+
+VERSION="1.0.0"
+
+# --- Helpers ---
+
+die() { echo "error: $*" >&2; exit 1; }
+
+require_zellij() {
+  command -v zellij >/dev/null 2>&1 || die "zellij is not installed or not in PATH"
+  command -v jq >/dev/null 2>&1 || die "jq is not installed or not in PATH"
+}
+
+# --- Read Guard ---
+# 沿用 tmux 版的约定：先读后写，agent 不许闭着眼睛往别人 pane 里敲字。
+
+read_guard_path() {
+  local target="$1"
+  echo "/tmp/zellij-bridge-read-${SESSION}-${target}"
+}
+
+mark_read() {
+  touch "$(read_guard_path "$1")"
+}
+
+require_read() {
+  local guard
+  guard=$(read_guard_path "$1")
+  if [[ ! -f "$guard" ]]; then
+    die "must read the pane before interacting. Run: zellij-bridge read $1"
+  fi
+}
+
+clear_read() {
+  rm -f "$(read_guard_path "$1")"
+}
+
+# --- Session detection ---
+# 优先级：ZELLIJ_BRIDGE_SESSION 环境变量 > 当前 pane 所在 session > 唯一一个活着的 session。
+
+SESSION=""
+
+list_live_sessions() {
+  # list-sessions 带颜色和 "(EXITED - attach to resurrect)" 后缀，-n 关掉格式化，
+  # 再把已经退出的滤掉 —— 往一个死 session 里发东西只会静默失败。
+  zellij list-sessions -n 2>/dev/null | grep -v 'EXITED' | awk '{print $1}' || true
+}
+
+detect_session() {
+  if [[ -n "${ZELLIJ_BRIDGE_SESSION:-}" ]]; then
+    if list_live_sessions | grep -qx -- "$ZELLIJ_BRIDGE_SESSION"; then
+      echo "$ZELLIJ_BRIDGE_SESSION"
+      return
+    fi
+    die "ZELLIJ_BRIDGE_SESSION=$ZELLIJ_BRIDGE_SESSION is not a live session"
+  fi
+
+  if [[ -n "${ZELLIJ_SESSION_NAME:-}" ]]; then
+    if list_live_sessions | grep -qx -- "$ZELLIJ_SESSION_NAME"; then
+      echo "$ZELLIJ_SESSION_NAME"
+      return
+    fi
+  fi
+
+  local sessions count
+  sessions=$(list_live_sessions)
+  count=$(printf '%s\n' "$sessions" | grep -c . || true)
+  if [[ "$count" == "1" ]]; then
+    printf '%s\n' "$sessions" | grep .
+    return
+  fi
+  if [[ "$count" == "0" ]]; then
+    die "no live zellij session found"
+  fi
+
+  die "multiple live sessions, set ZELLIJ_BRIDGE_SESSION to one of: $(printf '%s' "$sessions" | tr '\n' ' ')"
+}
+
+init_session() {
+  SESSION=$(detect_session)
+}
+
+# 包一层：所有 zellij action 都打到探测出来的 session 上。
+zj() {
+  zellij -s "$SESSION" action "$@"
+}
+
+panes_json() {
+  zj list-panes --all --json 2>/dev/null || die "cannot query panes of session '$SESSION'"
+}
+
+# JSON 里的 id 是纯数字，加上 is_plugin 才是 --pane-id 认的 terminal_N / plugin_N。
+JQ_TARGET='(if .is_plugin then "plugin_" else "terminal_" end) + (.id|tostring)'
+
+usage() {
+  cat <<'EOF'
+zellij-bridge — cross-pane communication for AI agents
+
+Usage: zellij-bridge <command> [args...]
+
+Commands:
+  list                      Show all terminal panes (target, tab, size, command, title)
+  type <target> <text>      Type text without pressing Enter
+  message <target> <text>   Type text with auto-prepended sender info and reply target
+  read <target> [lines]     Read last N lines from pane (default: 50)
+  keys <target> <key>...    Send special keys (Enter, Esc, "Ctrl c", C-c, ...)
+  name <target> <label>     Label a pane (this sets the pane title)
+  resolve <label>           Print pane target for a label
+  id                        Print this pane's target (terminal_$ZELLIJ_PANE_ID)
+  doctor                    Diagnose zellij connectivity issues
+  version                   Print version
+
+Target resolution:
+  Targets can be zellij native (terminal_1, plugin_2, or a bare number meaning
+  terminal_N), or a label set via 'name' — e.g. 'zellij-bridge type codex "hi"'.
+
+Environment:
+  ZELLIJ_BRIDGE_SESSION   Override the target session (skips auto-detection)
+EOF
+  exit 0
+}
+
+# --- Target resolution ---
+
+resolve_target() {
+  local target="$1"
+
+  # 原生 pane id
+  if [[ "$target" =~ ^(terminal|plugin)_[0-9]+$ ]]; then
+    echo "$target"; return
+  fi
+
+  # 纯数字 —— 和 zellij 自己的 --pane-id 一样，当成 terminal_N
+  if [[ "$target" =~ ^[0-9]+$ ]]; then
+    echo "terminal_${target}"; return
+  fi
+
+  resolve_label "$target"
+}
+
+resolve_label() {
+  local label="$1" result
+  result=$(panes_json | jq -r --arg l "$label" \
+    "map(select(.title == \$l)) | if length == 0 then empty else .[0] | $JQ_TARGET end")
+  if [[ -z "$result" ]]; then
+    die "no pane found with label '$label'"
+  fi
+  echo "$result"
+}
+
+validate_target() {
+  local target="$1" found
+  found=$(panes_json | jq -r --arg t "$target" \
+    "map(select(($JQ_TARGET) == \$t)) | length")
+  [[ "$found" == "0" ]] && die "invalid target: $target"
+  return 0
+}
+
+require_args() {
+  local need="$1" have="$2" cmd="$3"
+  if (( have < need )); then
+    die "'$cmd' requires at least $need argument(s). Run 'zellij-bridge' for usage."
+  fi
+}
+
+# tmux 风格的 C-c / M-x 也认，省得手指改不过来；其余原样透给 zellij。
+translate_key() {
+  local key="$1"
+  case "$key" in
+    C-*) echo "Ctrl ${key#C-}" ;;
+    M-*) echo "Alt ${key#M-}" ;;
+    *)   echo "$key" ;;
+  esac
+}
+
+# --- Commands ---
+
+cmd_list() {
+  printf "%-12s %-16s %-10s %-22s %s\n" "TARGET" "TAB" "SIZE" "COMMAND" "TITLE"
+  # 只列终端 pane：插件 pane（状态栏之类）不是 agent 会去聊天的对象。
+  panes_json | jq -r "
+    map(select(.is_plugin | not))
+    | sort_by(.tab_position, .id)
+    | .[]
+    | [ ($JQ_TARGET)
+      , (.tab_name // \"-\")
+      , ((.pane_columns|tostring) + \"x\" + (.pane_rows|tostring))
+      , (.terminal_command // \"-\")
+      , (.title // \"-\") + (if .is_focused then \" *\" else \"\" end)
+      ] | @tsv" \
+  | while IFS=$'\t' read -r target tab size cmd title; do
+      printf "%-12s %-16s %-10s %-22s %s\n" "$target" "$tab" "$size" "$cmd" "$title"
+    done
+}
+
+cmd_read() {
+  require_args 1 $# "read"
+  local target lines
+  target=$(resolve_target "$1")
+  validate_target "$target"
+  lines="${2:-50}"
+
+  # --full 带上回滚缓冲，再 tail 出最后 N 行，对齐 tmux 的 capture-pane -S -N。
+  zj dump-screen -p "$target" --full | tail -n "$lines"
+  mark_read "$target"
+}
+
+cmd_type() {
+  require_args 2 $# "type"
+  local target
+  target=$(resolve_target "$1")
+  validate_target "$target"
+  require_read "$target"
+
+  zj write-chars -p "$target" -- "$2"
+  clear_read "$target"
+}
+
+cmd_message() {
+  require_args 2 $# "message"
+  local target
+  target=$(resolve_target "$1")
+  validate_target "$target"
+  require_read "$target"
+
+  local sender_pane="${ZELLIJ_PANE_ID:-}"
+  if [[ -z "$sender_pane" ]]; then
+    die "not running inside a zellij pane (\$ZELLIJ_PANE_ID is unset)"
+  fi
+  sender_pane="terminal_${sender_pane}"
+
+  local sender_title
+  sender_title=$(panes_json | jq -r --arg t "$sender_pane" \
+    "map(select(($JQ_TARGET) == \$t)) | if length == 0 then \"\" else .[0].title end")
+  local from="${sender_title:-$sender_pane}"
+
+  local header="[zellij-bridge from:${from} pane:${sender_pane} session:${SESSION} — reply with: zellij-bridge read ${sender_pane}]"
+  zj write-chars -p "$target" -- "${header} $2"
+  clear_read "$target"
+}
+
+cmd_keys() {
+  require_args 2 $# "keys"
+  local target
+  target=$(resolve_target "$1")
+  validate_target "$target"
+  require_read "$target"
+  shift
+
+  for key in "$@"; do
+    # "Ctrl c" 这种组合键必须整个当成一个 argv 传进去 —— send-keys 是按参数收键的，
+    # 拆成 "Ctrl" "c" 两段它会报 unsupported key。
+    zj send-keys -p "$target" "$(translate_key "$key")"
+  done
+  clear_read "$target"
+}
+
+cmd_name() {
+  require_args 2 $# "name"
+  local target
+  target=$(resolve_target "$1")
+  validate_target "$target"
+
+  zj rename-pane -p "$target" "$2"
+}
+
+cmd_resolve() {
+  require_args 1 $# "resolve"
+  resolve_label "$1"
+}
+
+cmd_id() {
+  if [[ -z "${ZELLIJ_PANE_ID:-}" ]]; then
+    die "not running inside a zellij pane (\$ZELLIJ_PANE_ID is unset)"
+  fi
+  echo "terminal_${ZELLIJ_PANE_ID}"
+}
+
+cmd_doctor() {
+  local ok=true
+
+  echo "zellij-bridge doctor v${VERSION}"
+  echo "---"
+  echo "ZELLIJ:                 ${ZELLIJ:-<unset>}"
+  echo "ZELLIJ_SESSION_NAME:    ${ZELLIJ_SESSION_NAME:-<unset>}"
+  echo "ZELLIJ_PANE_ID:         ${ZELLIJ_PANE_ID:-<unset>}"
+  echo "ZELLIJ_BRIDGE_SESSION:  ${ZELLIJ_BRIDGE_SESSION:-<unset>}"
+
+  echo "---"
+  local live
+  live=$(list_live_sessions | tr '\n' ' ')
+  echo "Live sessions:          ${live:-<none>}"
+
+  local detected
+  detected=$(detect_session 2>/dev/null || echo "__failed__")
+  if [[ "$detected" == "__failed__" ]]; then
+    echo "Detected session:       FAILED — no usable session"
+    ok=false
+  else
+    echo "Detected session:       $detected"
+    SESSION="$detected"
+  fi
+
+  echo "---"
+  if [[ "$detected" != "__failed__" ]]; then
+    local total labeled
+    total=$(panes_json | jq -r 'map(select(.is_plugin | not)) | length')
+    echo "Terminal panes:         $total"
+    labeled=$(panes_json | jq -r 'map(select((.is_plugin | not) and (.title // "") != "")) | length')
+    echo "Panes with a title:     $labeled"
+
+    # 只有目标 session 就是自己所在的 session 时，这个自查才有意义 ——
+    # 否则两个 session 各有各的 terminal_0，查到的是同名的别人。
+    if [[ -n "${ZELLIJ_PANE_ID:-}" && "$detected" == "${ZELLIJ_SESSION_NAME:-}" ]]; then
+      local me="terminal_${ZELLIJ_PANE_ID}"
+      if panes_json | jq -e --arg t "$me" "map(select(($JQ_TARGET) == \$t)) | length > 0" >/dev/null; then
+        echo "This pane ($me): visible to session"
+      else
+        echo "This pane ($me): NOT visible in '$detected'"
+        ok=false
+      fi
+    elif [[ -n "${ZELLIJ_PANE_ID:-}" ]]; then
+      echo "This pane:              in '${ZELLIJ_SESSION_NAME:-<unknown>}', not the target session"
+    fi
+  fi
+
+  echo "---"
+  if $ok; then
+    echo "Status: OK"
+  else
+    echo "Status: ISSUES DETECTED"
+    echo ""
+    echo "Likely cause: running outside a zellij pane, or the session was killed."
+    echo "Fix: run inside zellij, or set ZELLIJ_BRIDGE_SESSION to a live session."
+    return 1
+  fi
+}
+
+# --- Main ---
+
+[[ $# -eq 0 ]] && usage
+
+case "$1" in
+  id)             shift; cmd_id "$@"; exit ;;
+  -h|--help|help) usage ;;
+  version)        echo "zellij-bridge $VERSION"; exit ;;
+esac
+
+require_zellij
+
+# doctor 自己做 session 探测（探不到也要把诊断打完），其余命令这里就得定下来。
+if [[ "$1" == "doctor" ]]; then
+  shift; cmd_doctor "$@"; exit
+fi
+
+init_session
+
+case "$1" in
+  list)        shift; cmd_list "$@" ;;
+  type)        shift; cmd_type "$@" ;;
+  message|msg) shift; cmd_message "$@" ;;
+  read)        shift; cmd_read "$@" ;;
+  keys)        shift; cmd_keys "$@" ;;
+  name)        shift; cmd_name "$@" ;;
+  resolve)     shift; cmd_resolve "$@" ;;
+  *)           die "unknown command: $1. Run 'zellij-bridge' for usage." ;;
+esac

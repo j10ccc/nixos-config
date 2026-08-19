@@ -5,6 +5,7 @@
     ../../modules/bat
     ../../modules/fzf
     ../../modules/lazygit
+    ../../modules/zellij
   ];
   home.stateVersion = "25.05";
   home.homeDirectory = /Users/j10c;
@@ -23,7 +24,6 @@
     glab
     noti
     soco-cli
-    tmux
     zellij
     claude-code
     lazygit
@@ -42,25 +42,6 @@
   home.file.".config/fish" = {
     source = ../../modules/fish;
     recursive = true;
-  };
-
-  home.file.".config/tmux/tmux.conf" = {
-    source = ../../modules/smux/tmux.conf;
-  };
-
-  home.file.".local/bin/tmux-buddy" = {
-    source = ../../modules/smux/bin/tmux-buddy;
-    executable = true;
-  };
-
-  home.file.".local/bin/tmux-bridge" = {
-    source = ../../modules/smux/bin/tmux-bridge;
-    executable = true;
-  };
-
-  home.file.".local/bin/smux" = {
-    source = ../../modules/smux/bin/smux;
-    executable = true;
   };
 
   home.file."Library/Application Support/VSCodium/User" = {

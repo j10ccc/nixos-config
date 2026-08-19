@@ -15,7 +15,7 @@ sudo darwin-rebuild switch --flake .#Midnight
 home-manager switch --flake .#Goldenage
 ```
 
-Determine the host from `hostname` if unsure. `sudo` on Darwin requires an interactive password (Touch ID inside tmux works after `pam_reattach` — see `lib/mksystem.nix`), so if running from a non-interactive context, the user must invoke it themselves.
+Determine the host from `hostname` if unsure. `sudo` on Darwin requires an interactive password (Touch ID inside a multiplexer like zellij works after `pam_reattach` — see `security.pam.services.sudo_local.reattach` in `lib/mksystem.nix`), so if running from a non-interactive context, the user must invoke it themselves.
 
 ### Flake + new files gotcha
 
@@ -35,7 +35,7 @@ The flake defines three hosts, dispatched through a single helper:
 - `users/<user>/` — user-level config.
   - `default.nix` is a nix-darwin system module (only used on Darwin builds).
   - `home-manager.nix` is the home-manager config used on Darwin. On Linux, the equivalent file is `hosts/goldenage/home-manager.nix` instead.
-- `modules/` — shared config payloads (ghostty, fish, tmux/smux, nvim, claude-code, etc.). These are **not** nix modules in most cases; they're plain config files that home-manager symlinks into `~/.config/...` via `home.file` entries in each user's `home-manager.nix`. Editing a file under `modules/fish/functions/foo.fish` directly changes what the user gets after rebuild.
+- `modules/` — shared config payloads (ghostty, fish, zellij, nvim, claude-code, etc.). These are **not** nix modules in most cases; they're plain config files that home-manager symlinks into `~/.config/...` via `home.file` entries in each user's `home-manager.nix`. Editing a file under `modules/fish/functions/foo.fish` directly changes what the user gets after rebuild.
 
 When mapping "where does X come from":
 1. Start at the host's entry in `flake.nix`.

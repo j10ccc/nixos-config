@@ -11,11 +11,10 @@ function fish_prompt
         echo -n "[$hostname] "
     end
 
-    # Display current path (skipped inside tmux — the pane border already shows it)
-    if not set -q TMUX
-        set_color blue -b normal
-        echo -n "$cwd "
-    end
+    # Display current path. Used to be skipped inside tmux, whose pane border showed
+    # the cwd for us; zellij's frame shows the pane title instead, so the prompt owns it now.
+    set_color blue -b normal
+    echo -n "$cwd "
 
     if not test "$TERM_PROGRAM" = "vscode"
         # Show git branch and dirty state

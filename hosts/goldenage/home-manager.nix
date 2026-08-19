@@ -8,6 +8,7 @@
     ../../modules/langfuse
     ../../modules/sunshine
     ../../modules/lazygit
+    ../../modules/zellij
   ];
 
   home.username = "j10c";
@@ -34,7 +35,6 @@
     go
     soco-cli
     viu
-    tmux
     zellij
     xclip
     jq
@@ -49,25 +49,6 @@
   home.file.".config/fish" = {
     source = ../../modules/fish;
     recursive = true;
-  };
-
-  home.file.".config/tmux/tmux.conf" = {
-    source = ../../modules/smux/tmux.conf;
-  };
-
-  home.file.".local/bin/tmux-buddy" = {
-    source = ../../modules/smux/bin/tmux-buddy;
-    executable = true;
-  };
-
-  home.file.".local/bin/tmux-bridge" = {
-    source = ../../modules/smux/bin/tmux-bridge;
-    executable = true;
-  };
-
-  home.file.".local/bin/smux" = {
-    source = ../../modules/smux/bin/smux;
-    executable = true;
   };
 
   home.file.".gemini" = {

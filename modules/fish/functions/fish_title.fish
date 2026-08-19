@@ -1,11 +1,6 @@
 function fish_title
-    # Shown as the terminal title; tmux picks this up as #{pane_title}.
-    # Inside tmux, the pane border appends the cwd basename separately,
-    # so we emit just the host to avoid duplicating the path.
+    # Shown as the terminal title; zellij picks this up as the pane title and
+    # renders it in the pane frame. Nothing else shows the cwd there, so include it.
     set -l host (command hostname -s)
-    if set -q TMUX
-        echo -n "$host"
-    else
-        echo -n "$host: "(prompt_pwd)
-    end
+    echo -n "$host: "(prompt_pwd)
 end

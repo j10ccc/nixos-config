@@ -1,4 +1,10 @@
-command = /run/current-system/sw/bin/tmux
+# 先过一层 login fish 再 exec zellij，不能直接写 zellij。
+# GUI 起的 ghostty 只继承 launchd 的裸 PATH（/usr/bin:/bin:/usr/sbin:/sbin + ghostty 自己），
+# 里面没有任何 nix 目录。zellij server 会原样继承这个 PATH，于是 config.kdl 里的
+# default_shell "fish" 解析不到，pane 里什么都不起 —— 状态栏照常渲染，正文一片空白。
+# 走一遍 login fish 会由 /etc/fish 把完整 PATH 补回来，zellij 及它拉起的一切都跟着受益。
+# （tmux 时代看不出来：所有窗口都接到同一个早就用好 PATH 起过的 server 上。）
+command = /run/current-system/sw/bin/fish -l -c "exec zellij"
 
 font-family = "MonaspiceNe Nerd Font Mono"
 font-family = "Noto Sans CJK SC"
@@ -7,6 +13,35 @@ font-size = 16
 font-feature = 'calt' off, 'liga', 'ss01', 'cv11'
 
 keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
+# 关掉 ghostty 自己的多 tab —— 和 zellij 的 tab 重合，留着只会抢键。
+# ghostty 没有「禁用 tab」的开关，只能把相关快捷键 unbind 掉；
+# 菜单栏 File > New Tab 仍然点得动，键盘上到不了。
+keybind = super+t=unbind
+keybind = super+alt+w=unbind
+keybind = super+shift+[=unbind
+keybind = super+shift+]=unbind
+keybind = ctrl+tab=unbind
+keybind = ctrl+shift+tab=unbind
+# goto_tab 系列。physical(digit_N) 和 logical(N) 两套都要解，list-keybinds 里是分开列的。
+keybind = super+digit_1=unbind
+keybind = super+1=unbind
+keybind = super+digit_2=unbind
+keybind = super+2=unbind
+keybind = super+digit_3=unbind
+keybind = super+3=unbind
+keybind = super+digit_4=unbind
+keybind = super+4=unbind
+keybind = super+digit_5=unbind
+keybind = super+5=unbind
+keybind = super+digit_6=unbind
+keybind = super+6=unbind
+keybind = super+digit_7=unbind
+keybind = super+7=unbind
+keybind = super+digit_8=unbind
+keybind = super+8=unbind
+keybind = super+digit_9=unbind
+keybind = super+9=unbind
 
 theme = nord
 

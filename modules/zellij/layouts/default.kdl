@@ -1,0 +1,49 @@
+// zellij 默认布局：底部一行 zjstatus 状态栏，顶掉内置的 tab-bar / status-bar。
+// 对齐原来 tmux 的状态栏：左边 tab 列表，右边 zellij-buddy 吐的机器资源。
+// 多出来的是 mode 指示器 —— zellij 是模态的，tmux 不是，不显示会不知道自己在哪个模式。
+//
+// wasm 由 home-manager 从 nix store 链到 ~/.config/zellij/plugins/zjstatus.wasm，
+// 见各 home-manager.nix 里的 home.file 条目。插件第一次加载 zellij 会问权限，
+// 焦点切到状态栏那个 pane 按 y 授权一次即可（升级 wasm 后要再按一次）。
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+                format_left  "{mode}{tabs}"
+                format_right "{command_sys}"
+                format_space "#[bg=#2E3440]"
+
+                // ---- Nord 配色，和 config.kdl 里的 theme "nord" 对齐 ----
+                // nord0 #2E3440 底 / nord3 #4C566A 暗前景 / nord15 #B48EAD 当前 tab
+
+                mode_normal        "#[bg=#2E3440,fg=#A3BE8C,bold] ● "
+                mode_locked        "#[bg=#2E3440,fg=#4C566A,bold] ○ "
+                mode_pane          "#[bg=#2E3440,fg=#88C0D0,bold] PANE "
+                mode_tab           "#[bg=#2E3440,fg=#88C0D0,bold] TAB "
+                mode_resize        "#[bg=#2E3440,fg=#88C0D0,bold] RESIZE "
+                mode_move          "#[bg=#2E3440,fg=#88C0D0,bold] MOVE "
+                mode_scroll        "#[bg=#2E3440,fg=#EBCB8B,bold] SCROLL "
+                mode_search        "#[bg=#2E3440,fg=#EBCB8B,bold] SEARCH "
+                mode_enter_search  "#[bg=#2E3440,fg=#EBCB8B,bold] SEARCH: "
+                mode_rename_tab    "#[bg=#2E3440,fg=#D08770,bold] RENAME TAB "
+                mode_rename_pane   "#[bg=#2E3440,fg=#D08770,bold] RENAME PANE "
+                mode_session       "#[bg=#2E3440,fg=#B48EAD,bold] SESSION "
+                mode_prompt        "#[bg=#2E3440,fg=#B48EAD,bold] PROMPT "
+                mode_tmux          "#[bg=#2E3440,fg=#BF616A,bold] TMUX "
+
+                // 对齐 tmux 的 " #I:#W "，当前 tab 用紫色加粗
+                tab_normal   "#[bg=#2E3440,fg=#616E88] {index}:{name} "
+                tab_active   "#[bg=#2E3440,fg=#B48EAD,bold] {index}:{name} "
+
+                // ---- 机器资源 ----
+                // zjstatus 不过 shell，命令是按空格切成 argv 直接 exec 的，
+                // 所以 $HOME 得自己套一层 sh 才会展开。
+                command_sys_command    "/bin/sh -c $HOME/.local/bin/zellij-buddy"
+                command_sys_format     "#[bg=#2E3440,fg=#81A1C1] {stdout} "
+                command_sys_interval   "5"
+                command_sys_rendermode "static"
+            }
+        }
+    }
+}

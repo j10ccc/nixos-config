@@ -1,0 +1,24 @@
+// Nord 配色，和 modules/ghostty/config 里的 `theme = nord` 对齐。
+// nord 是 zellij 自带的内置主题（zellij 0.44 二进制里打包了 nord.kdl），不用额外装 theme 文件。
+theme "nord"
+
+// 原来 tmux.conf 里的 `set-option -g default-command "fish -l"`。
+// 不写死的话 zellij 跟 $SHELL 走，从别的 shell 起就串了。
+default_shell "fish"
+
+// 每个 pane 各画一个完整边框，相邻两个 pane 中间就是两条竖线（自己的右边框
+// 贴着对方的左边框）。关掉边框后 zellij 改画一条单独的分隔线：
+//   开：pane0 内容占 1-38 列、pane1 占 41-78 列 → 39、40 两列都是线
+//   关：pane0 占 0-38 列、pane1 占 40-79 列 → 只剩 39 这一列
+// 代价是 pane 标题没地方显示了，聚焦的 pane 也不再有高亮边框。
+pane_frames false
+
+// 鼠标划过 pane 时不要变边框颜色、不要弹提示文字。
+mouse_hover_effects false
+
+// 每开一个新 session 都会弹一个占满屏的 "About Zellij" 提示 pane，tmux 没这东西。
+// 想看回来把这行删掉即可。
+show_startup_tips false
+
+// 其余选项一律留空，走 zellij 内置默认值。
+// 状态栏在 layouts/default.kdl 里（zjstatus），不在这。
