@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# zellij-bridge — 给 AI agent 用的跨 pane 通信 CLI，是原来 modules/smux/bin/tmux-bridge
-# 的 zellij 版。任何能跑 bash 的工具都能用它跟别的 pane 说话。
+# zellij-bridge — 给 AI agent 用的跨 pane 通信 CLI，是原来那个 tmux-bridge 的
+# zellij 版。任何能跑 bash 的工具都能用它跟别的 pane 说话。
 #
 # 和 tmux 版的对应关系：
 #   tmux -S <socket>              → zellij -s <session>

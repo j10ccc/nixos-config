@@ -8,6 +8,7 @@ apifox
 astronvim
 autohide
 balenaetcher
+borderless
 brightblack
 bytedance
 calt
@@ -18,9 +19,11 @@ dbaeumer
 devbox
 direnv
 dirfilter
+dont
 easymotion
 envrc
 Feishu
+fetchurl
 filefilter
 foldfix
 fzfa
@@ -39,6 +42,7 @@ incsearch
 jnoortheen
 keeporder
 keybind
+keybinds
 liga
 linkmode
 litellm
@@ -62,11 +66,13 @@ noti
 oneshot
 Pathbar
 pkgs
+pname
 prettybat
+rendermode
 sess
-smux
 snipaste
 soco
+stdenv
 swapusage
 ticktick
 toybox
@@ -87,3 +93,4 @@ wvous
 xclip
 xsel
 zhaofengli
+zjstatus

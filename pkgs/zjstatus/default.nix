@@ -1,4 +1,8 @@
-{ stdenvNoCC, fetchurl, lib }:
+{
+  stdenvNoCC,
+  fetchurl,
+  lib,
+}:
 
 # zjstatus —— zellij 的状态栏插件（https://github.com/dj95/zjstatus），
 # 上游只发 wasm，不进 nixpkgs，所以直接拉发布产物。
@@ -15,6 +19,7 @@ stdenvNoCC.mkDerivation {
 
   src = fetchurl {
     url = "https://github.com/dj95/zjstatus/releases/download/v${version}/zjstatus.wasm";
+    # cspell:disable-next-line —— base32 哈希，别往词典里塞它的碎片
     sha256 = "16v6ascpyl7na6lp3v98haggp9lwsg6r1rlv40zcyqpd3p7dxkhw";
   };
 
