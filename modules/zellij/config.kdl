@@ -6,12 +6,37 @@ theme "nord"
 // 不写死的话 zellij 跟 $SHELL 走，从别的 shell 起就串了。
 default_shell "fish"
 
-// 每个 pane 各画一个完整边框，相邻两个 pane 中间就是两条竖线（自己的右边框
-// 贴着对方的左边框）。关掉边框后 zellij 改画一条单独的分隔线：
+// session 这一层直接配没：所有窗口都接到同一个叫 main 的 session 上。
+// 不写的话每开一个 ghostty 窗口 zellij 就随机起一个新 session（joyous-duck、
+// undulating-crab 之类），tab 散在一堆 session 里，Ctrl o 那套 session manager
+// 变成日常必修课 —— 而 tab 一旦散出去就收不回来（见下）。
+//
+//   session_name       裸 `zellij`（ghostty 的 command 就是这个）创建的 session 叫什么
+//   attach_to_session  main 已存在时接上去，而不是报 "session already exists" 退出
+//
+// 代价，接受了再开：
+//   1. 多开 ghostty 窗口 / ctrl+` 的 quick terminal 都接同一个 session，画面是
+//      mirror 的 —— 两个窗口滚同一份内容，不是各看各的。想要互不干扰只能显式
+//      `zellij -s 别的名字`。
+//   2. main 处于 EXITED 状态时 attach 会把它 resurrect 起来（tab 和 cwd 回来，
+//      跑着的进程不回来），不是开一个干净的。
+//
+// 另：zellij 0.44 没有把 tab 从一个 session 搬到另一个的能力（zellij action 里
+// 没这个子命令，session-manager 也不给）。手上已经散掉的只能靠
+// `zellij -s <旧> action dump-layout` 导出 tab 名和 cwd，在 main 里重开。
+session_name "main"
+attach_to_session true
+
+// 开着边框：pane 标题就画在边框顶上那一行，这是 zellij 里唯一能同时看到
+// 多个 pane 标题的办法（关掉边框只剩 ghostty 标题栏，且只显示聚焦的那一个）。
+//
+// 代价是相邻 pane 中间有两条竖线 —— 每个 pane 各画一个完整的框，自己的右边框
+// 贴着对方的左边框，zellij 没有「共享边框」模式，只有这个开关：
 //   开：pane0 内容占 1-38 列、pane1 占 41-78 列 → 39、40 两列都是线
-//   关：pane0 占 0-38 列、pane1 占 40-79 列 → 只剩 39 这一列
-// 代价是 pane 标题没地方显示了，聚焦的 pane 也不再有高亮边框。
-pane_frames false
+//   关：pane0 占 0-38 列、pane1 占 40-79 列 → 只剩 39 这一列，但没有标题了
+//
+// 临时想要单线的干净版：Ctrl p 然后 z（默认绑定的 TogglePaneFrames），只影响当前会话。
+pane_frames true
 
 // 鼠标划过 pane 时不要变边框颜色、不要弹提示文字。
 mouse_hover_effects false
