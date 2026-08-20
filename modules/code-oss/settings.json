@@ -14,11 +14,10 @@
   "[vue]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
+  "catppuccin-noctis-icons.hidesExplorerArrows": false,
+  "claudeCode.useTerminal": true,
   "cSpell.userWords": [],
-  "colorize.languages": [
-    "typescript",
-    "typescriptreact"
-  ],
+  "colorize.languages": ["typescript", "typescriptreact"],
   "editor.colorDecoratorsActivatedOn": "click",
   "editor.cursorBlinking": "solid",
   "editor.cursorSurroundingLines": 8,
