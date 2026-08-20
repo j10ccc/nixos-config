@@ -79,6 +79,9 @@
       {
         contents = {
           core.editor = "nvim";
+          # 大仓里把 fish_prompt 的 git status 从 440ms 压到 50ms。
+          # 前提和代价见 users/j10c/home-manager.nix 里同一项的注释。
+          core.untrackedCache = true;
           init.defaultBranch = "master";
         };
       }
