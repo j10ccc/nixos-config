@@ -69,7 +69,6 @@
     ],
     "ask": [
       "Bash(sudo:*)",
-      "Bash(git push:*)",
       "Bash(npm install:*)",
       "Bash(bun install:*)",
       "Bash(npm add:*)",
