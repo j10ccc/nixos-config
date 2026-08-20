@@ -5,6 +5,7 @@ afplay
 aldente
 AMPM
 apifox
+APFS
 astronvim
 autohide
 balenaetcher

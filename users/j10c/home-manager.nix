@@ -83,6 +83,15 @@
             email = "blyb1739@gmail.com";
           };
           core.editor = "nvim";
+          # fish_prompt 每次出提示符跑一次 git status，其中「遍历工作区找未跟踪文件」
+          # 这一步随仓库规模线性增长：17k 已跟踪文件 + 满地 node_modules 的仓要 ~470ms，
+          # 于是 clear 之后要等半秒才出新 prompt。untracked cache 靠目录 mtime 跳过没动过
+          # 的子树，把 git status 从 440ms 压到 50ms。
+          # 代价：正确性依赖文件系统在增删文件时更新父目录 mtime。本地 APFS 没问题，
+          # 网络盘（SMB/NFS）、容器挂载卷不保证 —— 在那种地方要 core.untrackedCache=false。
+          # 用 `git update-index --test-untracked-cache` 复验，临时绕过用
+          # `git -c core.untrackedCache=false status`。
+          core.untrackedCache = true;
           init.defaultBranch = "master";
         };
       }
