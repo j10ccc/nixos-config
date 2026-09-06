@@ -4,8 +4,8 @@
 afplay
 aldente
 AMPM
-apifox
 APFS
+apifox
 astronvim
 autohide
 balenaetcher
@@ -14,9 +14,10 @@ brightblack
 bytedance
 calt
 catppuccin
-colour
 COLORTERM
+colour
 dbaeumer
+deepseek
 devbox
 direnv
 dirfilter
@@ -54,6 +55,7 @@ memsize
 mksystem
 Monaspace
 Monaspice
+multica
 netrc
 nixd
 nixfmt
@@ -92,6 +94,7 @@ wname
 worktrunk
 wvous
 xclip
+xhigh
 xsel
 zhaofengli
 zjstatus

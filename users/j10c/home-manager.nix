@@ -26,12 +26,10 @@
     soco-cli
     zellij
     claude-code
+    pi-coding-agent
     lazygit
     worktrunk
     uv
-    # Python with langfuse SDK for the Claude Code Stop hook in modules/claude-code/hooks/.
-    # Shipped on every Darwin host; the wrapper short-circuits when TRACE_TO_LANGFUSE is unset.
-    (python3.withPackages (ps: [ ps.langfuse ]))
   ];
 
   home.file.".config/ghostty" = {
@@ -58,13 +56,8 @@
     source = ../../modules/claude-code/settings.json;
   };
 
-  home.file.".claude/hooks/langfuse_hook.py" = {
-    source = ../../modules/claude-code/hooks/langfuse_hook.py;
-  };
-
-  home.file.".claude/hooks/langfuse_hook.sh" = {
-    source = ../../modules/claude-code/hooks/langfuse_hook.sh;
-    executable = true;
+  home.file.".pi/agent/models.json" = {
+    source = ../../modules/pi/models.json;
   };
 
   programs.git = {
