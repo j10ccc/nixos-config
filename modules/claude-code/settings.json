@@ -16,14 +16,6 @@
     ],
     "Stop": [
       {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/langfuse_hook.sh"
-          }
-        ]
-      },
-      {
         "matcher": "",
         "hooks": [
           {

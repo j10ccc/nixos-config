@@ -5,7 +5,7 @@
     ../../modules/bat
     ../../modules/fzf
     ../../modules/hermes
-    ../../modules/langfuse
+    ../../modules/multica
     ../../modules/sunshine
     ../../modules/lazygit
     ../../modules/zellij
@@ -39,9 +39,7 @@
     xclip
     jq
     claude-code
-    # Python with langfuse SDK for the Claude Code Stop hook in modules/claude-code/hooks/.
-    # The wrapper short-circuits when TRACE_TO_LANGFUSE is unset.
-    (python3.withPackages (ps: [ ps.langfuse ]))
+    pi-coding-agent
     tea
     caddy
   ];
@@ -56,17 +54,12 @@
     recursive = true;
   };
 
+  home.file.".pi/agent/models.json" = {
+    source = ../../modules/pi/models.json;
+  };
+
   home.file.".claude/settings.json" = {
     source = ../../modules/claude-code/settings.json;
-  };
-
-  home.file.".claude/hooks/langfuse_hook.py" = {
-    source = ../../modules/claude-code/hooks/langfuse_hook.py;
-  };
-
-  home.file.".claude/hooks/langfuse_hook.sh" = {
-    source = ../../modules/claude-code/hooks/langfuse_hook.sh;
-    executable = true;
   };
 
   programs.home-manager.enable = true;
