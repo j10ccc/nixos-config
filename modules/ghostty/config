@@ -12,7 +12,13 @@ font-size = 16
 
 font-feature = 'calt' off, 'liga', 'ss01', 'cv11'
 
-keybind = global:ctrl+grave_accent=toggle_quick_terminal
+# Terminal.app 用 Core Text + 系统 font smoothing，笔画会被加粗一档。
+# Ghostty GPU 光栅更贴近字型轮廓，同样 Regular 16 会显得更细。仅 macOS 有效：
+font-thicken = true
+
+# 关掉 cmd+enter 全屏（默认 super+enter=toggle_fullscreen），误触率太高；
+# cmd+ctrl+f 那个标准 macOS 全屏键保留。
+keybind = super+enter=unbind
 
 # 关掉 ghostty 自己的多 tab —— 和 zellij 的 tab 重合，留着只会抢键。
 # ghostty 没有「禁用 tab」的开关，只能把相关快捷键 unbind 掉；
@@ -43,13 +49,48 @@ keybind = super+8=unbind
 keybind = super+digit_9=unbind
 keybind = super+9=unbind
 
-theme = nord
+# 对齐 Terminal.app 的 Nord 方案（官方 nord-iterm2，Color Space = Generic RGB / Calibrated）。
+# Source: https://github.com/arcticicestudio/nord-iterm2  src/xml/Nord.itermcolors
+#
+# 坑：iTerm/Terminal 存的是 Generic RGB 分量，不是 sRGB。把那些分量直接 *255 写成 hex
+#（旧值 background=#232731 等）再交给 ghostty，无论按 sRGB 还是 display-p3 解释都会偏深——
+# Generic RGB ≠ sRGB ≠ Display P3。display-p3 也救不了，因为色域换错了。
+#
+# 下面是从本机 Terminal.app 的 Nord profile 做 Generic RGB → sRGB 的色度转换结果，
+# 给 ghostty 默认的 window-colorspace=srgb 用。转完几乎就是规范 nord（#2E3440 / #D8DEE9）。
+palette = 0=#3b4253
+palette = 1=#c06069
+palette = 2=#a2bf8a
+palette = 3=#eccc87
+palette = 4=#7fa0c2
+palette = 5=#b58dae
+palette = 6=#86c0d1
+palette = 7=#e5e9f1
+palette = 8=#4c556b
+palette = 9=#c06069
+palette = 10=#a2bf8a
+palette = 11=#eccc87
+palette = 12=#7fa0c2
+palette = 13=#b58dae
+palette = 14=#8dbcbb
+palette = 15=#eceff4
+background = #2f3440
+foreground = #d8dee9
+cursor-color = #d8dee9
+cursor-text = #3b4253
+selection-background = #424b5f
+selection-foreground = #d8dee9
 
 window-padding-x = 8
 window-padding-y = 8
 
-window-title-font-family = "MonaspiceNe Nerd Font Mono"
-
 window-step-resize = true
+
+# 默认 transparent/tabs 会把终端背景渗进标题栏，看起来像沉浸 Nord。
+# native + system：跟 Terminal.app 一样走系统外观（浅色白底 / 深色黑底），不跟终端配色走。
+macos-titlebar-style = native
+window-theme = system
+
+macos-icon = glass
 
 macos-option-as-alt = true
