@@ -14,6 +14,7 @@ brightblack
 bytedance
 calt
 catppuccin
+Claudish
 COLORTERM
 colour
 dbaeumer

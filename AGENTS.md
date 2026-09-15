@@ -47,3 +47,16 @@ When mapping "where does X come from":
 - Commit messages follow Conventional Commits with a scope, e.g. `feat(tmux): ...`, `feat(pam): ...`, `chore(fish): ...`. Scope generally matches the module or host touched.
 - `master` is the default branch. PRs are opened against it.
 - The three hosts share most of `modules/` — changes there affect every host that symlinks the file. If a change is host-specific, put it in `hosts/<name>/` or the user's `home-manager.nix` instead.
+
+## Reporting: plain language, with evidence
+
+Anything the user reads must assume they did not watch the intermediate steps. Internal notes — todos, scratch, messages between subagents — may be compressed. The part where the user has to decide, review, or approve is written for someone who was not there.
+
+- **No invented terminology.** Coinages that look like real jargon are banned from user-facing output — in Chinese the two-character compounds (归户 / 死门 / 对拍 / 全绿 / 哑火 / 终审干净), in English the dense metaphor-stacked register people call "Claudish". If a standard phrase exists, use it: "all 15 tests pass", not "全绿".
+- **No metaphors for engineering objects.** Not 皮 / 腿 / 账本 / 铁律, not "the arm", not "it bites". Name the file, the module, the rule.
+- **Every claim carries evidence**: the command that ran, its output, which files changed, how to reproduce. `exit 0` is not "task done", a green build is not "goal met", a successful tool call is not "the change took effect". No evidence means not done.
+- **If the cause is unknown, say the cause is not established.** Do not supply a plausible-sounding story in its place.
+- **Do not say "你拍板" / "your call" instead of giving options.** When a decision is genuinely the user's, list the choices, what each one costs, and your recommendation.
+- **Do not let jargon survive a round.** If the user echoes a coined term back, do not adopt it. If you coined one last turn, switch to the standard phrasing this turn. Rewrite subagent output into structured results rather than inheriting its wording.
+
+This is a rule rather than a style note because the failure mode is self-reinforcing. Long, multi-subagent runs are scored on whether the task completed, never on whether the report was understood; meanwhile each turn's shorthand goes back into the context window as the most recent sample of how to write, so a private dialect compounds until something cuts it off. Asking for "plainer language" does not work — the coinages already read as plain to whoever wrote them. The mechanism has to be banned by name.
