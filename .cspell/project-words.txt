@@ -59,6 +59,7 @@ multica
 netrc
 nixd
 nixfmt
+nixos
 nixpkgs
 noctis
 nofiles
@@ -70,11 +71,13 @@ oneshot
 Pathbar
 pkgs
 pname
+powerline
 prettybat
 rendermode
 sess
 snipaste
 soco
+statusline
 stdenv
 swapusage
 ticktick

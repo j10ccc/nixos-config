@@ -105,5 +105,10 @@
         "codeload.github.com"
       ]
     }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
   }
 }
