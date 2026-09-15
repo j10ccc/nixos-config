@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  mkAgentContext = import ../../modules/agent-context/mk-context.nix pkgs;
+in
 {
   imports = [
     ../../modules/bat
@@ -58,8 +61,16 @@
     source = ../../modules/pi/models.json;
   };
 
+  home.file.".pi/agent/AGENTS.md" = {
+    source = mkAgentContext { name = "AGENTS.md"; };
+  };
+
   home.file.".claude/settings.json" = {
     source = ../../modules/claude-code/settings.json;
+  };
+
+  home.file.".claude/CLAUDE.md" = {
+    source = mkAgentContext { name = "CLAUDE.md"; };
   };
 
   programs.home-manager.enable = true;
