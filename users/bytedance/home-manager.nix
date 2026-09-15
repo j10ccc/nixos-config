@@ -56,6 +56,11 @@
     source = ../../modules/claude-code/settings.json;
   };
 
+  home.file.".claude/statusline.sh" = {
+    source = ../../modules/claude-code/statusline.sh;
+    executable = true;
+  };
+
   home.file.".pi/agent/models.json" = {
     source = ../../modules/pi/models.json;
   };

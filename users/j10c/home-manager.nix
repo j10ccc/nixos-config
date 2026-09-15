@@ -59,6 +59,11 @@ in
     source = ../../modules/claude-code/settings.json;
   };
 
+  home.file.".claude/statusline.sh" = {
+    source = ../../modules/claude-code/statusline.sh;
+    executable = true;
+  };
+
   home.file.".claude/CLAUDE.md" = {
     source = mkAgentContext { name = "CLAUDE.md"; };
   };
