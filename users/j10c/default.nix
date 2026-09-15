@@ -18,7 +18,6 @@
       "the-unarchiver"
       "telegram"
       "tencent-lemon"
-      "aldente"
       "docker-desktop"
       "obsidian"
       "clash-verge-rev"
