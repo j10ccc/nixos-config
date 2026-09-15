@@ -22,7 +22,6 @@
       "the-unarchiver"
       "telegram"
       "tencent-lemon"
-      "aldente"
       "apifox"
       "google-chrome"
       "ghostty"
