@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  mkAgentContext = import ../../modules/agent-context/mk-context.nix pkgs;
+in
 {
   imports = [
     ../../modules/bat
@@ -56,8 +59,16 @@
     source = ../../modules/claude-code/settings.json;
   };
 
+  home.file.".claude/CLAUDE.md" = {
+    source = mkAgentContext { name = "CLAUDE.md"; };
+  };
+
   home.file.".pi/agent/models.json" = {
     source = ../../modules/pi/models.json;
+  };
+
+  home.file.".pi/agent/AGENTS.md" = {
+    source = mkAgentContext { name = "AGENTS.md"; };
   };
 
   programs.git = {
