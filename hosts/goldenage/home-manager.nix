@@ -30,7 +30,6 @@ in
     pnpm
     bun
     ni
-    gemini-cli-bin
     gh
     noti
     bottom
@@ -49,11 +48,6 @@ in
 
   home.file.".config/fish" = {
     source = ../../modules/fish;
-    recursive = true;
-  };
-
-  home.file.".gemini" = {
-    source = ../../modules/gemini;
     recursive = true;
   };
 

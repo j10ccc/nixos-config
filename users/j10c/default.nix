@@ -30,7 +30,6 @@
       "ticktick"
       "feishu"
       "wechat"
-      "typeless"
       "vscodium"
     ];
     onActivation = {

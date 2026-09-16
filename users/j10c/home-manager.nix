@@ -20,7 +20,6 @@ in
     pnpm
     bun
     ni
-    gemini-cli
     localsend
     whistle
     gh
@@ -47,11 +46,6 @@ in
 
   home.file."Library/Application Support/VSCodium/User" = {
     source = ../../modules/code-oss;
-    recursive = true;
-  };
-
-  home.file.".gemini" = {
-    source = ../../modules/gemini;
     recursive = true;
   };
 
