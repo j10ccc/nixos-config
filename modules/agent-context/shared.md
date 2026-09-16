@@ -14,6 +14,29 @@ taboos differ per agent — those go in that agent's extra. Anything true of one
 repository goes in that repository's own `AGENTS.md`: a file in the home
 directory applies to every repo, and there is no way to scope it.
 
+## Comments in code: default none
+
+`Default to writing no comments. Never write a multi-paragraph docstring.` The
+newer models match the surrounding comment density instead, so a repo already
+full of noise clones itself. Keep this repo clean so the feedback loop stays
+short.
+
+- Default: no comments.
+- Only write a comment if deleting it would lose information the code cannot
+express — a `why`, a constraint, or a non-obvious tradeoff. Never restate the
+next line, narrate what the code used to do, or paste chat history / library
+docs / change history.
+- One short line max. No multi-paragraph docstring unless a public API genuinely
+needs the contract spelled out.
+- When editing an existing file, match down to the surrounding style, not up to
+it: if the file is over-commented, thin those comments rather than adding more
+of the same.
+
+The decision is the comment: if it is explainable from the code or from
+the discussion you already had, leave it out. Long comment blocks are a sign
+the reasoning should have been a commit message or a doc page, not a code
+comment.
+
 ## Report in plain language, with evidence
 
 Assume the reader did not watch the intermediate steps. Todos, scratch notes and
