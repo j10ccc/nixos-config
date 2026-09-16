@@ -18,7 +18,6 @@
     whistle
     pnpm
     ni
-    gemini-cli
     nodejs_24
     bun
     bat-extras.prettybat
@@ -44,11 +43,6 @@
 
   home.file."Library/Application Support/Trae CN/User" = {
     source = ../../modules/code-oss;
-    recursive = true;
-  };
-
-  home.file.".gemini" = {
-    source = ../../modules/gemini;
     recursive = true;
   };
 

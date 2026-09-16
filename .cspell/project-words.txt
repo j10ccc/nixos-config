@@ -85,7 +85,6 @@ toybox
 trackpad
 Trae
 truecolor
-typeless
 unarchiver
 ungoogled
 Unsandboxed

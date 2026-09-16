@@ -29,7 +29,7 @@
       ExecStart = "${config.home.homeDirectory}/.local/bin/multica daemon start --foreground";
       Restart = "always";
       RestartSec = 10;
-      # The daemon shells out to the agent CLIs (claude, hermes, gemini …),
+      # The daemon shells out to the agent CLIs (claude, hermes, …),
       # which live in the nix profile. A user unit does not inherit the login
       # shell's PATH, so it has to be spelled out here or nothing is detected.
       Environment = [
