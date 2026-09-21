@@ -52,4 +52,6 @@ window-title-font-family = "MonaspiceNe Nerd Font Mono"
 
 window-step-resize = true
 
+macos-icon = xray
+
 macos-option-as-alt = true
