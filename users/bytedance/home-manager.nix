@@ -46,6 +46,11 @@
     recursive = true;
   };
 
+  home.file."Library/Application Support/VSCodium/User" = {
+    source = ../../modules/code-oss;
+    recursive = true;
+  };
+
   home.file.".claude/settings.json" = {
     source = ../../modules/claude-code/settings.json;
   };
