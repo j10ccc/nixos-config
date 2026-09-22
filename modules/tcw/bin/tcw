@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+# tcw shim（多仓协作工作区 CLI）。
+#
+# tcw 本体不做 nix 包，理由跟 bytedcli 一样、但更硬：
+# 官方装出来的 ~/.tcw/bin/tcw 只是个 launcher，真正的二进制是运行时从内网私有仓
+# git@code.byted.org:life_service/ai-dev-workspace.git 的 master 浅克隆下来、
+# 用 go 现场 build 的，而且它自带 12h 热更新，会自己覆盖 launcher 和模板缓存。
+# 源不公开、产物跟着 master 走、还会自我改写，pin 不住。
+#
+# nix 这边只管三件事：
+#   1. 这个 shim 常驻 ~/.local/bin/tcw，PATH 由 home-manager 管。官方脚本
+#      往 ~/.zshrc 里塞 `export PATH=$HOME/.tcw/bin:$PATH` 那段被绕开了
+#      —— bootstrap 时 --rc-file 指到 ~/.tcw/.rc-unused，没人 source 它。
+#   2. 运行时依赖（go、git）由 home.packages 提供，不靠系统里碰巧装了什么。
+#   3. ~/.tcw 整个目录留给 tcw 自己写（launcher、config.yaml、模板缓存、build 产物）。
+#      别用 home.file 挂成指向 store 的只读软链，否则 `tcw upgrade` 和热更新写不进去。
+#
+# 首次执行会自动跑官方安装脚本做 bootstrap，需要能 SSH 到 code.byted.org，
+# 并且会拉一次模板仓 + go build，比较慢。之后 tcw 自己管自己的版本，shim 不参与。
+#
+# 想重装/重置：rm -rf ~/.tcw 然后再跑一次 tcw。
+
+set -eu
+
+TCW_ROOT="${TCW_INSTALL_ROOT:-$HOME/.tcw}"
+TCW_BIN="$TCW_ROOT/bin/tcw"
+TCW_INSTALLER="https://lf0-fast-deliver-inner.bytedance.net/obj/eden-internal/thla-ylrupa-lmps/ljhwZthlaukjlkulzlp/tcw/install-tcw.sh"
+
+if [ ! -x "$TCW_BIN" ]; then
+  printf 'tcw shim: %s 不存在，开始 bootstrap（需要 SSH 到 code.byted.org）\n' "$TCW_BIN" >&2
+  curl -fsSL "$TCW_INSTALLER" | bash -s -- \
+    --branch master \
+    --shell bash \
+    --rc-file "$TCW_ROOT/.rc-unused" \
+    --skip-init-workspace \
+    --skip-open-trae
+fi
+
+exec "$TCW_BIN" "$@"

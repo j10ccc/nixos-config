@@ -14,6 +14,19 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash|NotebookEdit|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TEA_APP_ID=1013111 TEA_CHANNEL=cn npx -y --registry=https://bnpm.byted.org -p @dp/ai-code-report@latest -- ai-report-hook-run claude-code postToolUse --debug",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
@@ -21,6 +34,67 @@
           {
             "type": "command",
             "command": "$CLAUDE_SOUND_STOP"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TEA_APP_ID=1013111 TEA_CHANNEL=cn npx -y --registry=https://bnpm.byted.org -p @dp/ai-code-report@latest -- ai-report-hook-run claude-code stop --debug",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TEA_APP_ID=1013111 TEA_CHANNEL=cn npx -y --registry=https://bnpm.byted.org -p @dp/ai-code-report@latest -- ai-report-hook-run claude-code subagentStop --debug",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TEA_APP_ID=1013111 TEA_CHANNEL=cn npx -y --registry=https://bnpm.byted.org -p @dp/ai-code-report@latest -- ai-report-hook-run claude-code sessionStart --debug",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash|NotebookEdit|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TEA_APP_ID=1013111 TEA_CHANNEL=cn npx -y --registry=https://bnpm.byted.org -p @dp/ai-code-report@latest -- ai-report-hook-run claude-code preToolUse --debug",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "Write|Edit|MultiEdit|Bash|NotebookEdit|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TEA_APP_ID=1013111 TEA_CHANNEL=cn npx -y --registry=https://bnpm.byted.org -p @dp/ai-code-report@latest -- ai-report-hook-run claude-code postToolUseFailure --debug",
+            "timeout": 30,
+            "async": true
           }
         ]
       }
@@ -108,7 +182,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/statusline.sh",
+    "command": "~/.local/share/kaboo/bin/kaboo-cli statusline --exec ~/.claude/statusline.sh",
     "padding": 0
   }
 }

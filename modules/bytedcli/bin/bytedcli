@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+# bytedcli shim。
+#
+# 内网 bytedcli 不做全局安装、也不用 nix 打包：上游几乎每个工作日发一版，
+# pin 版本维护不过来（pkgs/bytedcli 那个半成品就是上次没坚持下来的证据）。
+# 统一走 npx 拉最新版。
+#
+# 有这个 shim 的意义是：从 skill 文档、内网 wiki、同事那里复制来的
+# `bytedcli xxx` 命令可以原样执行，不用每次手工改写成 npx 形式。
+# 它是真文件而不是 shell alias，所以 fish / zsh / 脚本 / agent 起的子进程都生效。
+#
+# 调试某个版本的回归时可以临时 pin：
+#   BYTEDCLI_VERSION=0.117.0 bytedcli --version
+
+: "${NPM_CONFIG_REGISTRY:=http://bnpm.byted.org}"
+export NPM_CONFIG_REGISTRY
+
+exec npx -y "@bytedance-dev/bytedcli@${BYTEDCLI_VERSION:-latest}" "$@"

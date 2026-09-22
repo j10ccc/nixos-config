@@ -9,9 +9,12 @@ apifox
 astronvim
 autohide
 balenaetcher
+bmsfv
 borderless
 brightblack
+byted
 bytedance
+bytedcli
 calt
 catppuccin
 COLORTERM
@@ -23,6 +26,7 @@ direnv
 dirfilter
 dont
 easymotion
+emox
 envrc
 Feishu
 fetchurl
@@ -32,16 +36,19 @@ fzfa
 ghostty
 glab
 Goldenage
+gopls
 gsub
 halfpage
 hitoolbox
 hjkl
 hklyuiopnmqwertzxcvbasdgjf
 hlsearch
+iangnn
 iina
 ijkl
 incsearch
 jnoortheen
+kaboo
 keeporder
 keybind
 keybinds
@@ -88,6 +95,7 @@ truecolor
 unarchiver
 ungoogled
 Unsandboxed
+vffy
 vscodevim
 wechat
 wechatwebdevtools
@@ -98,5 +106,6 @@ wvous
 xclip
 xhigh
 xsel
+yyrx
 zhaofengli
 zjstatus

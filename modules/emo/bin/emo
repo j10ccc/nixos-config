@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# emo（@ies/eden-monorepo）shim。
+#
+# 和 bytedcli 一样的路子：不做 npm 全局安装、也不用 nix 打包，统一走 npx
+# 拉最新版。有这个 shim 是为了让从内网 wiki、skill 文档、同事那里复制来的
+# `emo xxx` 能原样执行，不用每次手工改写成 npx 形式。
+# 它是真文件而不是 shell alias，所以 fish / zsh / 脚本 / agent 起的子进程都生效。
+#
+# 调试某个版本的回归时可以临时 pin：
+#   EDEN_MONOREPO_VERSION=1.2.3 emo --version
+
+: "${NPM_CONFIG_REGISTRY:=http://bnpm.byted.org}"
+export NPM_CONFIG_REGISTRY
+
+# 包里有 eden-mono / eden-monorepo / emo / emox 四个 bin，裸 `npx <pkg>` 会挑
+# 与包同名的 eden-monorepo，所以用 -p 显式指定要跑的 emo。
+exec npx -y -p "@ies/eden-monorepo@${EDEN_MONOREPO_VERSION:-latest}" emo "$@"

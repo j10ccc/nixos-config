@@ -22,6 +22,7 @@
     bun
     bat-extras.prettybat
     uv
+    go
     gh
     noti
     zellij
@@ -29,6 +30,8 @@
     pi-coding-agent
     lazygit
     worktrunk
+    # Trae 内网 gopls，预编译二进制（替代内网 brew tap flow/trae-gopls）。
+    (callPackage ../../pkgs/trae-gopls { })
   ];
 
   home.file.".config/ghostty" = {
@@ -39,6 +42,32 @@
   home.file.".config/fish" = {
     source = ../../modules/fish;
     recursive = true;
+  };
+
+  # 内网 bytedcli 的 npx shim，让复制来的 `bytedcli ...` 能原样跑。
+  # 用真文件而不是 fish alias：agent 起的是 zsh 子进程，alias 在那边不生效。
+  home.file.".local/bin/bytedcli" = {
+    source = ../../modules/bytedcli/bin/bytedcli;
+    executable = true;
+  };
+
+  # 内网 emo（@ies/eden-monorepo）的 npx shim，同上。
+  # 同包还导出 emox（独立入口 bin/emox.js，不是 emo 的别名），一并补上。
+  home.file.".local/bin/emo" = {
+    source = ../../modules/emo/bin/emo;
+    executable = true;
+  };
+
+  home.file.".local/bin/emox" = {
+    source = ../../modules/emo/bin/emox;
+    executable = true;
+  };
+
+  # 内网 tcw（多仓协作工作区）的 shim。首次执行自动 bootstrap 官方 launcher，
+  # 绕开它往 ~/.zshrc 塞 PATH 的那一步；~/.tcw 留给 tcw 自己写。详见脚本注释。
+  home.file.".local/bin/tcw" = {
+    source = ../../modules/tcw/bin/tcw;
+    executable = true;
   };
 
   home.file."Library/Application Support/Trae CN/User" = {

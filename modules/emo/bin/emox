@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+# emox（@ies/eden-monorepo）shim。
+#
+# 和 emo 同一个包，但 emox 是独立入口（bin/emox.js），不是 emo 的别名，
+# 所以需要单独的 shim。路子与 emo 一致：npx 拉最新版，不做全局安装。
+#
+# 调试某个版本的回归时可以临时 pin：
+#   EDEN_MONOREPO_VERSION=1.2.3 emox --version
+
+: "${NPM_CONFIG_REGISTRY:=http://bnpm.byted.org}"
+export NPM_CONFIG_REGISTRY
+
+exec npx -y -p "@ies/eden-monorepo@${EDEN_MONOREPO_VERSION:-latest}" emox "$@"
