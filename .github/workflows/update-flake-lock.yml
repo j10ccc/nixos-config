@@ -26,7 +26,7 @@ jobs:
       - uses: DeterminateSystems/update-flake-lock@main
         with:
           branch: chore/update-flake-lock
-          commit-msg: "chore(flake): update inputs"
+          commit-msg: "chore(flake): update inputs (${{ steps.date.outputs.today }})"
           pr-title: "chore(flake): update inputs (${{ steps.date.outputs.today }})"
           pr-labels: |
             dependencies
