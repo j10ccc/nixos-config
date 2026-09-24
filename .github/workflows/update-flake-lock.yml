@@ -1,0 +1,33 @@
+name: update-flake-lock
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every Monday at 01:00 UTC (09:00 Asia/Shanghai)
+    - cron: "0 1 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  lockfile:
+    name: Update flake.lock
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Get date
+        id: date
+        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - uses: DeterminateSystems/update-flake-lock@main
+        with:
+          branch: chore/update-flake-lock
+          commit-msg: "chore(flake): update inputs (${{ steps.date.outputs.today }})"
+          pr-title: "chore(flake): update inputs (${{ steps.date.outputs.today }})"
+          pr-labels: |
+            dependencies
+            automated
