@@ -183,7 +183,7 @@
   "window.customTitleBarVisibility": "never",
   "window.nativeTabs": true,
   "workbench.activityBar.location": "top",
-  "workbench.colorTheme": "Nord",
+  "workbench.colorTheme": "Solarized Dark",
   "workbench.editor.customLabels.patterns": {
     "**/index.*": "${dirname} .../${dirname(1)}",
     "**/{page,layout,template,route,actions,hooks,components,utils,types}.{js,ts,jsx,tsx,vue}": "${dirname}/${filename}.${extname} .../${dirname(1)}"
