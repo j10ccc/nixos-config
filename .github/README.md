@@ -32,5 +32,5 @@ Here are my personal environment preferences:
 | Item         | Name                 |
 | ------------ | -------------------- |
 | Font         | Monaspace Neon(cv11) |
-| Color Scheme | Nord                 |
+| Color Scheme | Solarized Dark       |
 | Keybinding   | Vim like(hjkl)       |
