@@ -19,11 +19,15 @@ jobs:
 
       - uses: DeterminateSystems/nix-installer-action@main
 
+      - name: Get date
+        id: date
+        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
       - uses: DeterminateSystems/update-flake-lock@main
         with:
           branch: chore/update-flake-lock
           commit-msg: "chore(flake): update inputs"
-          pr-title: "chore(flake): update inputs"
+          pr-title: "chore(flake): update inputs (${{ steps.date.outputs.today }})"
           pr-labels: |
             dependencies
             automated
