@@ -13,7 +13,7 @@ font-thicken = true
 # cmd+enter 全屏误触率太高。
 keybind = super+enter=unbind
 
-# ghostty 多 tab 和 zellij 重合，且没有禁用开关，只能 unbind 快捷键。
+# 多窗口交给终端复用器管理，ghostty 的 tab 没有禁用开关，只能 unbind 快捷键。
 keybind = super+t=unbind
 keybind = super+alt+w=unbind
 keybind = super+shift+[=unbind
