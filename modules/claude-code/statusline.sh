@@ -179,7 +179,7 @@ prompt=$(grep -F "\"promptId\":\"$prompt_id\"" "$transcript" 2>/dev/null | jq -r
   | sub("^ +"; "") | sub(" +$"; "")
 ' 2>/dev/null)
 
-[ -n "$prompt" ] && printf '%s%s%s\n' "$DIM" "$(fit "⏎ $prompt")" "$RST"
+[ -n "$prompt" ] && printf '%s%s%s\n' "$DIM" "$(fit "↳ $prompt")" "$RST"
 
 # Otherwise the failed test above becomes the exit status and looks like a hook error.
 exit 0
