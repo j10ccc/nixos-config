@@ -24,24 +24,11 @@ else
     mem_total_mb=$(awk '/MemTotal/ {printf "%.0f", $2/1024}' /proc/meminfo)
     mem_available_mb=$(awk '/MemAvailable/ {printf "%.0f", $2/1024}' /proc/meminfo)
     mem_used_mb=$((mem_total_mb - mem_available_mb))
-    swap_used_mb=0
+    swap_used_mb=$(awk '/SwapTotal/ {t=$2} /SwapFree/ {f=$2} END {printf "%.0f", (t-f)/1024}' /proc/meminfo)
 fi
 
-# Format RAM in GB
-mem_used_gb=$(awk "BEGIN {printf \"%.1f\", $mem_used_mb/1024}")
+mem_pct=$(awk "BEGIN {printf \"%.0f\", $mem_used_mb*100/$mem_total_mb}")
 mem_total_gb=$(awk "BEGIN {printf \"%.0f\", $mem_total_mb/1024}")
 swap_used_gb=$(awk "BEGIN {printf \"%.1f\", $swap_used_mb/1024}")
 
-# Mood based on CPU load
-if   (( cpu < 10 )); then face="(　-ω-)zzZ"
-elif (( cpu < 30 )); then face="(・ω・)"
-elif (( cpu < 60 )); then face="(・∀・)"
-elif (( cpu < 80 )); then face="(>﹏<)"
-else                       face="(╯°□°)╯"
-fi
-
-if [[ "$(uname)" == "Darwin" ]]; then
-    echo "$face  CPU: ${cpu}%  RAM: ${mem_used_gb}/${mem_total_gb}G  Swap: ${swap_used_gb}G"
-else
-    echo "$face  CPU: ${cpu}%  RAM: ${mem_used_gb}/${mem_total_gb}G"
-fi
+printf "C %2d%%  M %s%%/%sG (%sG)\n" "$cpu" "$mem_pct" "$mem_total_gb" "$swap_used_gb"

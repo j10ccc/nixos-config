@@ -1,10 +1,4 @@
-// zellij 默认布局：底部一行 zjstatus 状态栏，顶掉内置的 tab-bar / status-bar。
-// 对齐原来 tmux 的状态栏：左边 tab 列表，右边 zellij-buddy 吐的机器资源。
-// 多出来的是 mode 指示器 —— zellij 是模态的，tmux 不是，不显示会不知道自己在哪个模式。
-//
-// wasm 由 home-manager 从 nix store 链到 ~/.config/zellij/plugins/zjstatus.wasm，
-// 见各 home-manager.nix 里的 home.file 条目。插件第一次加载 zellij 会问权限，
-// 焦点切到状态栏那个 pane 按 y 授权一次即可（升级 wasm 后要再按一次）。
+// 插件第一次加载时 zellij 会问权限：焦点切到状态栏按 y 授权一次（升级 wasm 后要再按）。
 layout {
     default_tab_template {
         children
@@ -12,35 +6,31 @@ layout {
             plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {
                 format_left  "{mode}{tabs}"
                 format_right "{command_sys}"
-                format_space "#[bg=#002b36]"
+                format_space "#[bg=default]"
 
-                // ---- Solarized Dark，和 config.kdl 里的 theme "solarized-dark" 对齐 ----
-                // base03 #002b36 底 / base01 #586e75 暗前景 / magenta #d33682 当前 tab
+                // 只用终端 16 色名字，颜色跟着 ghostty 的 theme 走。
+                mode_normal      "#[bg=bright_cyan,fg=black,bold] NORMAL#[bg=default,fg=bright_cyan] "
+                mode_locked      "#[bg=bright_cyan,fg=black,bold] LOCKED#[bg=default,fg=bright_cyan] "
+                mode_pane        "#[bg=bright_cyan,fg=black,bold] PANE#[bg=default,fg=bright_cyan] "
+                mode_tab         "#[bg=bright_cyan,fg=black,bold] TAB#[bg=default,fg=bright_cyan] "
+                mode_resize      "#[bg=bright_cyan,fg=black,bold] RESIZE#[bg=default,fg=bright_cyan] "
+                mode_move        "#[bg=bright_cyan,fg=black,bold] MOVE#[bg=default,fg=bright_cyan] "
+                mode_scroll      "#[bg=bright_cyan,fg=black,bold] SCROLL#[bg=default,fg=bright_cyan] "
+                mode_search      "#[bg=bright_cyan,fg=black,bold] SEARCH#[bg=default,fg=bright_cyan] "
+                mode_enter_search "#[bg=bright_cyan,fg=black,bold] ENTER SEARCH#[bg=default,fg=bright_cyan] "
+                mode_rename_tab  "#[bg=bright_cyan,fg=black,bold] RENAME TAB#[bg=default,fg=bright_cyan] "
+                mode_rename_pane "#[bg=bright_cyan,fg=black,bold] RENAME PANE#[bg=default,fg=bright_cyan] "
+                mode_session     "#[bg=bright_cyan,fg=black,bold] SESSION#[bg=default,fg=bright_cyan] "
+                mode_prompt      "#[bg=bright_cyan,fg=black,bold] PROMPT#[bg=default,fg=bright_cyan] "
+                mode_tmux        "#[bg=bright_cyan,fg=black,bold] TMUX#[bg=default,fg=bright_cyan] "
 
-                mode_normal        "#[bg=#002b36,fg=#859900,bold] ● "
-                mode_locked        "#[bg=#002b36,fg=#586e75,bold] ○ "
-                mode_pane          "#[bg=#002b36,fg=#2aa198,bold] PANE "
-                mode_tab           "#[bg=#002b36,fg=#2aa198,bold] TAB "
-                mode_resize        "#[bg=#002b36,fg=#2aa198,bold] RESIZE "
-                mode_move          "#[bg=#002b36,fg=#2aa198,bold] MOVE "
-                mode_scroll        "#[bg=#002b36,fg=#b58900,bold] SCROLL "
-                mode_search        "#[bg=#002b36,fg=#b58900,bold] SEARCH "
-                mode_enter_search  "#[bg=#002b36,fg=#b58900,bold] SEARCH: "
-                mode_rename_tab    "#[bg=#002b36,fg=#cb4b16,bold] RENAME TAB "
-                mode_rename_pane   "#[bg=#002b36,fg=#cb4b16,bold] RENAME PANE "
-                mode_session       "#[bg=#002b36,fg=#d33682,bold] SESSION "
-                mode_prompt        "#[bg=#002b36,fg=#d33682,bold] PROMPT "
-                mode_tmux          "#[bg=#002b36,fg=#dc322f,bold] TMUX "
+                // 两端是 Nerd Font 的半圆 U+E0B6 / U+E0B4。
+                tab_normal   "#[bg=default,fg=yellow]#[bg=yellow,fg=black]{index} #[bg=bright_cyan,fg=black] {name} #[bg=default,fg=bright_cyan] "
+                tab_active   "#[bg=default,fg=blue]#[bg=blue,fg=bright_white,bold]{index} #[bg=bright_white,fg=black,bold] {name} #[bg=default,fg=bright_white] "
 
-                // 对齐 tmux 的 " #I:#W "，当前 tab 用 magenta 加粗
-                tab_normal   "#[bg=#002b36,fg=#586e75] {index}:{name} "
-                tab_active   "#[bg=#002b36,fg=#d33682,bold] {index}:{name} "
-
-                // ---- 机器资源 ----
-                // zjstatus 不过 shell，命令是按空格切成 argv 直接 exec 的，
-                // 所以 $HOME 得自己套一层 sh 才会展开。
+                // zjstatus 按空格切 argv 直接 exec，不过 shell，$HOME 要靠 sh 展开。
                 command_sys_command    "/bin/sh -c $HOME/.local/bin/zellij-buddy"
-                command_sys_format     "#[bg=#002b36,fg=#268bd2] {stdout} "
+                command_sys_format     "#[bg=default,fg=blue] {stdout} "
                 command_sys_interval   "5"
                 command_sys_rendermode "static"
             }
