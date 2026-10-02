@@ -42,6 +42,10 @@ keybind = super+9=unbind
 
 theme = "iTerm2 Solarized Dark"
 
+# 改 opacity 要彻底退出 ghostty 重开才生效。
+background-opacity = 0.9
+background-blur = true
+
 window-padding-x = 8
 window-padding-y = 8
 
