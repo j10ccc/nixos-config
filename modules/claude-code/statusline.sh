@@ -1,39 +1,15 @@
 #!/usr/bin/env bash
-# Claude Code statusLine renderer, laid out like pi's interactive footer:
-# dim text, no icons, no background blocks, no powerline glyphs.
-#
-#   ~/Code/projects/nixos-config (master)
-#   claude-opus-5 CH12.9% $1.235 38.5%/1.0M • 5h 36% 7d 19%
-#   ▌ 能不能展示出正在执行的 prompt？
-#
-# Colors carry meaning, so there are only three:
-#   - the model name is magenta, the one fixed-color element;
-#   - percentages (context window, 5h/7d quota) turn yellow above 70% and red
-#     above 90%, the same thresholds pi uses for its context gauge;
-#   - everything else is dim. The two quota windows render at normal brightness
-#     instead of dim so they stand out from the run of text before them without
-#     spending a hue that the thresholds already need.
-#
-# Claude Code pipes the session JSON on stdin and prints whatever we write; see
-# https://code.claude.com/docs/en/statusline for the field list.
-#
-# Two things differ from pi because Claude Code does not expose the inputs: the
-# cache hit rate describes the last API call rather than cumulative session
-# totals, and there is no auto-compact or thinking-level marker.
+# Claude Code statusLine renderer. Input fields: https://code.claude.com/docs/en/statusline
 
 set -uo pipefail
 
-# ${#var} must count characters, not bytes, or truncation cuts in the wrong
-# place on any line containing non-ASCII.
+# ${#var} must count characters, not bytes.
 export LC_ALL="${LC_ALL:-en_US.UTF-8}"
 
 input=$(cat)
 
-# One jq call for everything on stdin. jq prints one field per line and the loop
-# keeps the empty ones; a tab-separated `read` would not, because tab is IFS
-# whitespace, so runs of it collapse and every empty field -- session_name and
-# the two quota windows are empty most of the time -- would shift every later
-# value one slot to the left.
+# One field per line, not tab-separated: `read` collapses runs of tabs, so empty
+# fields would shift every later value.
 f=()
 while IFS= read -r line; do f+=("$line"); done < <(printf '%s' "$input" | jq -r '
   def dp1: (. * 10 | round) / 10 | tostring
@@ -94,8 +70,6 @@ ERR=$'\033[31m'
 
 width=${COLUMNS:-80}
 
-# Pick the attribute for a percentage: the thresholds win, otherwise the
-# caller's base attribute (dim for the context gauge, normal for the quotas).
 pct_attr() {
   local pct=${1%%.*}
   if   [ "${pct:-0}" -gt 90 ]; then printf '%s' "$ERR"
@@ -104,12 +78,8 @@ pct_attr() {
   fi
 }
 
-# Columns occupied, not characters: CJK takes two columns each, and a prompt in
-# Chinese overruns the terminal and wraps if you count characters. Approximated
-# as (characters + bytes) / 2, which is exact for ASCII (1 byte, 1 column) and
-# for CJK (3 bytes, 2 columns) -- the two things these lines actually contain.
-# Scripts that encode to 2 bytes but occupy one column (Cyrillic, Greek) come
-# out half a column too wide each; emoji count as 2, which is usually right.
+# Display columns ≈ (chars + bytes) / 2: exact for ASCII and CJK, so Chinese
+# prompts don't overrun the line and wrap.
 dwidth() {
   local s=$1 chars bytes saved=$LC_ALL
   chars=${#s}
@@ -119,8 +89,7 @@ dwidth() {
   printf '%s' $(( (chars + bytes) / 2 ))
 }
 
-# Truncate on the plain copy; slicing a colored string would land inside an
-# escape sequence.
+# Only ever called on uncolored text: slicing would cut escape sequences.
 fit() {
   local text=$1 out
   [ "$(dwidth "$text")" -le "$width" ] && { printf '%s' "$text"; return; }
@@ -131,15 +100,13 @@ fit() {
   printf '%s...' "$out"
 }
 
-# ---- line 1: cwd (branch) • session ----------------------------------------
 case "$cwd" in
   "$HOME")   dir="~" ;;
   "$HOME"/*) dir="~${cwd#"$HOME"}" ;;
   *)         dir="$cwd" ;;
 esac
 
-# Guard on $cwd: `git -C ""` silently falls back to the process's own working
-# directory, which would label an unknown cwd with this repo's branch.
+# `git -C ""` falls back to the script's own cwd and would report the wrong branch.
 branch=""
 [ -n "$cwd" ] && branch=$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null)
 [ -n "$branch" ] && dir="$dir ($branch)"
@@ -147,8 +114,6 @@ branch=""
 
 printf '%s%s%s\n' "$DIM" "$(fit "$dir")" "$RST"
 
-# ---- line 2: model, then usage ---------------------------------------------
-# Built twice: `plain` measures for truncation, `lit` carries the attributes.
 plain=""
 lit=""
 add() {
@@ -160,7 +125,6 @@ add() {
 add "$model" "${MAGENTA}${model}${RST}"
 [ -n "$chr" ] && add "CH$chr%" "${DIM}CH$chr%${RST}"
 
-# printf '%.3f' on the raw float, matching pi's cost.toFixed(3).
 if [ -n "$cost" ] && [ "$cost" != "0" ]; then
   txt=$(printf '$%.3f' "$cost")
   add "$txt" "${DIM}${txt}${RST}"
@@ -171,9 +135,8 @@ if [ -n "$ctx_pct" ]; then
   add "$txt" "$(pct_attr "$ctx_pct" "$DIM")${txt}${RST}"
 fi
 
-# rate_limits is present only for Claude.ai Pro/Max accounts, only after the
-# first API response, and each window disappears once it resets -- so both of
-# these are routinely absent and simply drop out of the line.
+# Quotas use normal brightness rather than a color so they stand out without
+# clashing with the yellow/red thresholds.
 if [ -n "$q5" ] || [ -n "$q7" ]; then
   add "•" "${DIM}•${RST}"
   if [ -n "$q5" ]; then
@@ -192,24 +155,15 @@ else
   printf '%s\n' "$lit"
 fi
 
-# ---- optional machine-local side effect ------------------------------------
-# Some machines want the same payload handed to another tool -- a usage tracker,
-# a menu bar applet. If an executable sits at this path it gets a copy of stdin
-# and runs detached: nothing drawn above depends on it, and a sidecar that is
-# missing, slow, or broken changes nothing on screen.
+# Detached so a slow or broken sidecar can never affect rendering.
 sidecar=${CLAUDE_STATUSLINE_SIDECAR:-$HOME/.claude/statusline-sidecar.sh}
 [ -x "$sidecar" ] && printf '%s' "$input" | "$sidecar" >/dev/null 2>&1 &
 
-# ---- line 3: the prompt currently being processed ---------------------------
-# The statusLine JSON carries prompt_id but not the text, so look the id up in
-# the transcript. The user's own message is the first record under that id, and
-# is the only one that is a "user" entry with string content and no tool result
-# (tool results are also typed "user", with an array body).
-#
-# A slash command arrives as two records: a boilerplate caveat, then the command
-# itself; skip the caveat and show the command name.
+# The payload has prompt_id but not the prompt text, so read it from the transcript.
 [ -n "$prompt_id" ] && [ -r "$transcript" ] || exit 0
 
+# Tool results are also "user" records (with array content); slash commands are
+# preceded by a caveat record.
 prompt=$(grep -F "\"promptId\":\"$prompt_id\"" "$transcript" 2>/dev/null | jq -rs '
   [ .[]
     | select(.type == "user" and .toolUseResult == null
@@ -225,8 +179,7 @@ prompt=$(grep -F "\"promptId\":\"$prompt_id\"" "$transcript" 2>/dev/null | jq -r
   | sub("^ +"; "") | sub(" +$"; "")
 ' 2>/dev/null)
 
-[ -n "$prompt" ] && printf '%s%s%s\n' "$DIM" "$(fit "▌ $prompt")" "$RST"
+[ -n "$prompt" ] && printf '%s%s%s\n' "$DIM" "$(fit "⏎ $prompt")" "$RST"
 
-# The line above is a test, so it decides the exit status when the prompt is
-# empty. Claude Code should not see that as the hook failing.
+# Otherwise the failed test above becomes the exit status and looks like a hook error.
 exit 0
