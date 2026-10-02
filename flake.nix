@@ -20,6 +20,11 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    # Don't follow our nixpkgs: herdr's flake builds with rust-overlay on
+    # its own nixpkgs pin. Consume packages.<system>.herdr, not overlays.default
+    # (that overlay also injects rust-overlay into the whole package set).
+    herdr.url = "github:herdrdev/herdr/v0.9.1";
   };
 
   outputs =
@@ -31,6 +36,7 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      herdr,
     }:
     let
       mkSystem = import ./lib/mksystem.nix { inherit nixpkgs inputs; };
