@@ -82,6 +82,7 @@ statusline
 stdenv
 swapusage
 ticktick
+titlebar
 toybox
 trackpad
 Trae
