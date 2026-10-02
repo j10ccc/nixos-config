@@ -51,7 +51,6 @@ window-padding-y = 8
 
 window-step-resize = true
 
-# 标题栏跟随系统外观，不渗入终端背景色。
 macos-titlebar-style = native
 window-theme = system
 

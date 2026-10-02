@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# CPU
 if [[ "$(uname)" == "Darwin" ]]; then
     cores=$(sysctl -n hw.logicalcpu)
     cpu=$(ps -A -o %cpu | awk -v c="$cores" '{s+=$1} END {printf "%.0f", s/c}')
@@ -8,7 +7,6 @@ else
     cpu=$(awk 'NR==1 {printf "%.0f", (1-$5/($2+$3+$4+$5+$6+$7+$8))*100}' /proc/stat)
 fi
 
-# RAM
 if [[ "$(uname)" == "Darwin" ]]; then
     mem_total=$(sysctl -n hw.memsize)
     mem_total_mb=$((mem_total / 1024 / 1024))
@@ -18,7 +16,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
     pages_compressed=$(vm_stat | awk '/Pages occupied by compressor/ {gsub(/\./,"",$5); print $5}')
     mem_used_mb=$(( (pages_active + pages_wired + pages_compressed) * page_size / 1024 / 1024 ))
 
-    # Swap on macOS
     swap_used_mb=$(sysctl -n vm.swapusage | awk '{gsub(/M/,"",$6); printf "%.0f", $6}')
 else
     mem_total_mb=$(awk '/MemTotal/ {printf "%.0f", $2/1024}' /proc/meminfo)
