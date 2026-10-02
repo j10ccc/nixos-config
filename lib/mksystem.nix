@@ -20,7 +20,6 @@ let
           CGO_ENABLED = "1";
         };
       });
-      herdr = inputs.herdr.packages.${final.stdenv.hostPlatform.system}.herdr;
     })
   ];
 
