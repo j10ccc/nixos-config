@@ -27,6 +27,7 @@
     zellij
     claude-code
     pi-coding-agent
+    herdr
     lazygit
     worktrunk
   ];

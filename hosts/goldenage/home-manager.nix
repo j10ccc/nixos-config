@@ -42,6 +42,7 @@ in
     jq
     claude-code
     pi-coding-agent
+    herdr
     tea
     caddy
   ];
