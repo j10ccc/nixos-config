@@ -34,6 +34,7 @@ glab
 Goldenage
 gsub
 halfpage
+herdr
 hitoolbox
 hjkl
 hklyuiopnmqwertzxcvbasdgjf
@@ -59,6 +60,7 @@ multica
 netrc
 nixd
 nixfmt
+nixos
 nixpkgs
 noctis
 nofiles
@@ -70,11 +72,13 @@ oneshot
 Pathbar
 pkgs
 pname
+powerline
 prettybat
 rendermode
 sess
 snipaste
 soco
+statusline
 stdenv
 swapusage
 ticktick
@@ -82,7 +86,6 @@ toybox
 trackpad
 Trae
 truecolor
-typeless
 unarchiver
 ungoogled
 Unsandboxed

@@ -16,16 +16,15 @@
     casks = [
       "snipaste"
       "maccy"
-      "iina"
       "ungoogled-chromium"
       "stats"
       "the-unarchiver"
       "telegram"
       "tencent-lemon"
-      "aldente"
       "apifox"
       "google-chrome"
       "ghostty"
+      "vscodium"
     ];
     masApps = {
       "TickTick" = 966085870;

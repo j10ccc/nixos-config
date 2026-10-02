@@ -1,5 +1,8 @@
 { pkgs, ... }:
 
+let
+  mkAgentContext = import ../../modules/agent-context/mk-context.nix pkgs;
+in
 {
   imports = [
     ../../modules/bat
@@ -17,7 +20,6 @@
     pnpm
     bun
     ni
-    gemini-cli
     localsend
     whistle
     gh
@@ -27,6 +29,7 @@
     zellij
     claude-code
     pi-coding-agent
+    herdr
     lazygit
     worktrunk
     uv
@@ -47,17 +50,25 @@
     recursive = true;
   };
 
-  home.file.".gemini" = {
-    source = ../../modules/gemini;
-    recursive = true;
-  };
-
   home.file.".claude/settings.json" = {
     source = ../../modules/claude-code/settings.json;
   };
 
+  home.file.".claude/statusline.sh" = {
+    source = ../../modules/claude-code/statusline.sh;
+    executable = true;
+  };
+
+  home.file.".claude/CLAUDE.md" = {
+    source = mkAgentContext { name = "CLAUDE.md"; };
+  };
+
   home.file.".pi/agent/models.json" = {
     source = ../../modules/pi/models.json;
+  };
+
+  home.file.".pi/agent/AGENTS.md" = {
+    source = mkAgentContext { name = "AGENTS.md"; };
   };
 
   programs.git = {
@@ -99,7 +110,7 @@
   programs.vivid = {
     enable = true;
     enableFishIntegration = true;
-    activeTheme = "nord";
+    activeTheme = "solarized-dark";
   };
 
   programs.zoxide = {

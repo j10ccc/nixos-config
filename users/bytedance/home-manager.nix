@@ -18,7 +18,6 @@
     whistle
     pnpm
     ni
-    gemini-cli
     nodejs_24
     bun
     bat-extras.prettybat
@@ -28,6 +27,7 @@
     zellij
     claude-code
     pi-coding-agent
+    herdr
     lazygit
     worktrunk
   ];
@@ -47,13 +47,18 @@
     recursive = true;
   };
 
-  home.file.".gemini" = {
-    source = ../../modules/gemini;
+  home.file."Library/Application Support/VSCodium/User" = {
+    source = ../../modules/code-oss;
     recursive = true;
   };
 
   home.file.".claude/settings.json" = {
     source = ../../modules/claude-code/settings.json;
+  };
+
+  home.file.".claude/statusline.sh" = {
+    source = ../../modules/claude-code/statusline.sh;
+    executable = true;
   };
 
   home.file.".pi/agent/models.json" = {
@@ -89,7 +94,7 @@
   programs.vivid = {
     enable = true;
     enableFishIntegration = true;
-    activeTheme = "nord";
+    activeTheme = "solarized-dark";
   };
 
   programs.zoxide = {
