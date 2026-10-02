@@ -80,7 +80,7 @@ pct_attr() {
 
 # Display columns ≈ (chars + bytes) / 2: exact for ASCII and CJK, so Chinese
 # prompts don't overrun the line and wrap.
-dwidth() {
+display_width() {
   local s=$1 chars bytes saved=$LC_ALL
   chars=${#s}
   LC_ALL=C
@@ -92,9 +92,9 @@ dwidth() {
 # Only ever called on uncolored text: slicing would cut escape sequences.
 fit() {
   local text=$1 out
-  [ "$(dwidth "$text")" -le "$width" ] && { printf '%s' "$text"; return; }
+  [ "$(display_width "$text")" -le "$width" ] && { printf '%s' "$text"; return; }
   out=${text:0:width}
-  while [ -n "$out" ] && [ "$(dwidth "$out")" -gt "$((width - 3))" ]; do
+  while [ -n "$out" ] && [ "$(display_width "$out")" -gt "$((width - 3))" ]; do
     out=${out%?}
   done
   printf '%s...' "$out"
@@ -149,7 +149,7 @@ if [ -n "$q5" ] || [ -n "$q7" ]; then
   fi
 fi
 
-if [ "$(dwidth "$plain")" -gt "$width" ]; then
+if [ "$(display_width "$plain")" -gt "$width" ]; then
   printf '%s%s%s\n' "$DIM" "$(fit "$plain")" "$RST"
 else
   printf '%s\n' "$lit"
@@ -170,9 +170,9 @@ prompt=$(grep -F "\"promptId\":\"$prompt_id\"" "$transcript" 2>/dev/null | jq -r
              and (.message.content | type) == "string")
     | .message.content
   ]
-  | map(select(startswith("<local-command-caveat>") | not))
+  | map(select(test("^<local-command-caveat>") | not))
   | (.[0] // "")
-  | if startswith("<command-name>")
+  | if test("^<command-name>")
     then (capture("^<command-name>(?<n>[^<]*)</command-name>") | .n)
     else . end
   | gsub("\\s+"; " ")
