@@ -94,7 +94,7 @@
   programs.vivid = {
     enable = true;
     enableFishIntegration = true;
-    activeTheme = "nord";
+    activeTheme = "solarized-dark";
   };
 
   programs.zoxide = {

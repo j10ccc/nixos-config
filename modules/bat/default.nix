@@ -4,7 +4,7 @@
   programs.bat = {
     enable = true;
     config = {
-      theme = "Nord";
+      theme = "Solarized (dark)";
       style = "changes,snip";
     };
   };

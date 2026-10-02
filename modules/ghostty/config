@@ -43,7 +43,8 @@ keybind = super+8=unbind
 keybind = super+digit_9=unbind
 keybind = super+9=unbind
 
-theme = nord
+# Ghostty 自带的 iTerm2 Solarized Dark。官方 hex 就是 sRGB，不用再做色域转换。
+theme = "iTerm2 Solarized Dark"
 
 window-padding-x = 8
 window-padding-y = 8

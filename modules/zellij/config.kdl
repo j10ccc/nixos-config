@@ -1,6 +1,6 @@
-// Nord 配色，和 modules/ghostty/config 里的 `theme = nord` 对齐。
-// nord 是 zellij 自带的内置主题（zellij 0.44 二进制里打包了 nord.kdl），不用额外装 theme 文件。
-theme "nord"
+// Solarized Dark，和 modules/ghostty/config 里的 iTerm2 Solarized Dark 对齐。
+// solarized-dark 是 zellij 自带的内置主题，不用额外装 theme 文件。
+theme "solarized-dark"
 
 // 原来 tmux.conf 里的 `set-option -g default-command "fish -l"`。
 // 不写死的话 zellij 跟 $SHELL 走，从别的 shell 起就串了。
