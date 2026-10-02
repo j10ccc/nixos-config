@@ -11,7 +11,6 @@
     fd
     vivid
     nixfmt
-    zellij
     jq
   ];
 

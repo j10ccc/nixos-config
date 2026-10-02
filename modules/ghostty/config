@@ -42,12 +42,14 @@ keybind = super+9=unbind
 
 theme = "iTerm2 Solarized Dark"
 
+background-opacity = 0.9
+background-blur = true
+
 window-padding-x = 8
 window-padding-y = 8
 
 window-step-resize = true
 
-# 标题栏跟随系统外观，不渗入终端背景色。
 macos-titlebar-style = native
 window-theme = system
 
