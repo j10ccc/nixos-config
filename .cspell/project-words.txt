@@ -34,6 +34,8 @@ glab
 Goldenage
 gsub
 halfpage
+herdr
+herdrdev
 hitoolbox
 hjkl
 hklyuiopnmqwertzxcvbasdgjf
