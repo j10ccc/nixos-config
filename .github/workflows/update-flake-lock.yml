@@ -23,7 +23,15 @@ jobs:
         id: date
         run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
 
+      # Package versions on the current lock, diffed against the new lock
+      # below and appended to the PR body. Best effort: never block the PR.
+      - name: Snapshot package versions (before)
+        id: before
+        continue-on-error: true
+        run: .github/scripts/package-versions.sh > "$RUNNER_TEMP/before.json"
+
       - uses: DeterminateSystems/update-flake-lock@main
+        id: update
         with:
           branch: chore/update-flake-lock
           commit-msg: "chore(flake): update inputs (${{ steps.date.outputs.today }})"
@@ -31,3 +39,21 @@ jobs:
           pr-labels: |
             dependencies
             automated
+
+      - name: Add package version changes to PR body
+        if: steps.update.outputs.pull-request-number != '' && steps.before.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.update.outputs.pull-request-number }}
+        run: |
+          set -euo pipefail
+          git fetch origin chore/update-flake-lock
+          git checkout FETCH_HEAD -- flake.lock
+          .github/scripts/package-versions.sh > "$RUNNER_TEMP/after.json"
+          .github/scripts/package-diff.py "$RUNNER_TEMP/before.json" "$RUNNER_TEMP/after.json" > "$RUNNER_TEMP/diff.md"
+          # Replace any section from a previous run of this workflow.
+          gh pr view "$PR" --json body --jq .body | sed '/<!-- package-versions -->/,$d' > "$RUNNER_TEMP/body.md"
+          { echo; cat "$RUNNER_TEMP/diff.md"; } >> "$RUNNER_TEMP/body.md"
+          gh pr edit "$PR" --body-file "$RUNNER_TEMP/body.md"
+          cat "$RUNNER_TEMP/diff.md" >> "$GITHUB_STEP_SUMMARY"

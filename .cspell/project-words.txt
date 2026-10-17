@@ -28,6 +28,7 @@ Feishu
 fetchurl
 filefilter
 foldfix
+foldl
 fzfa
 ghostty
 glab
