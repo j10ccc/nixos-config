@@ -20,11 +20,11 @@ def host_section(host, old, new):
         if before == after:
             continue
         if before is None:
-            rows.append(f"| {name} | | `{after}` | added |")
+            rows.append(f"| {name} | — | `{after}` (added) |")
         elif after is None:
-            rows.append(f"| {name} | `{before}` | | removed |")
+            rows.append(f"| {name} | `{before}` | — (removed) |")
         else:
-            rows.append(f"| {name} | `{before}` | `{after}` | |")
+            rows.append(f"| {name} | `{before}` | `{after}` |")
     if not rows:
         return f"**{host}**: no package version changes.\n"
     return "\n".join(
@@ -32,8 +32,8 @@ def host_section(host, old, new):
             "<details open>",
             f"<summary><b>{host}</b>: {len(rows)} change(s)</summary>",
             "",
-            "| Package | Old | New | |",
-            "| --- | --- | --- | --- |",
+            "| Package | Old | New |",
+            "| --- | --- | --- |",
             *rows,
             "",
             "</details>",
