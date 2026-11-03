@@ -1,7 +1,20 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  home.activation.piSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ${pkgs.python3}/bin/python3 ${./merge-settings.py} ${./settings.json} "$HOME/.pi/agent/settings.json"
-  '';
+  home.activation.piSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+    lib.hm.generators.mkImpureConfigMerger {
+      inherit pkgs;
+      format = "json";
+      empty = "{}";
+      jqOperation = "$dynamic + $static";
+      path = "${config.home.homeDirectory}/.pi/agent/settings.json";
+      staticSettings = ./settings.json;
+      mode = "600";
+    }
+  );
 }
