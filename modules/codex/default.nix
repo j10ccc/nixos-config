@@ -1,12 +1,13 @@
+# cspell:words pipewire
 { pkgs, ... }:
 
 let
   mkAgentContext = import ../agent-context/mk-context.nix pkgs;
   stopSound = pkgs.writeShellScript "codex-stop-sound" (
     if pkgs.stdenv.hostPlatform.isDarwin then
-      ''exec /usr/bin/afplay /System/Library/Sounds/Hero.aiff''
+      "exec /usr/bin/afplay /System/Library/Sounds/Hero.aiff"
     else
-      ''exec ${pkgs.pipewire}/bin/pw-play /usr/share/sounds/freedesktop/stereo/complete.oga''
+      "exec ${pkgs.pipewire}/bin/pw-play /usr/share/sounds/freedesktop/stereo/complete.oga"
   );
 in
 {
