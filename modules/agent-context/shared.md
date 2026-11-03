@@ -15,6 +15,24 @@ taboos differ per agent — those go in that agent's extra. Anything true of one
 repository goes in that repository's own `AGENTS.md`: a file in the home
 directory applies to every repo, and there is no way to scope it.
 
+## Commit attribution
+
+When creating a commit, append a `Co-authored-by` trailer after a blank line:
+`Co-authored-by: TOOL (MODEL_ID) <ATTRIBUTION_EMAIL>`.
+Use `Codex`, `Claude Code`, or `pi` for the tool. Take the model ID from the
+active runtime or session metadata; use `unknown` when it cannot be confirmed.
+Use a configured attribution email when available; otherwise use these defaults:
+
+| Tool | Attribution email |
+| --- | --- |
+| Codex | `267193182+codex@users.noreply.github.com` |
+| Claude Code | `noreply@anthropic.com` |
+| pi | `noreply@pi.dev` |
+
+Keep the user's Git author identity and existing co-author trailers. Add each
+tool/model pair once. These trailers record assistance, not verified authorship;
+GitHub account links and avatars require an email associated with that account.
+
 ## Comments in code: default none
 
 `Default to writing no comments. Never write a multi-paragraph docstring.` The
