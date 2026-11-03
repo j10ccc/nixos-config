@@ -1,0 +1,14 @@
+{
+  "packages": [
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-background-tasks",
+    "npm:context-mode",
+    "npm:@plannotator/pi-extension",
+    "npm:@narumitw/pi-goal",
+    "npm:pi-simplify",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:@narumitw/pi-btw"
+  ]
+}
