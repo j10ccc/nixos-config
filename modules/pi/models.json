@@ -1,11 +1,29 @@
 {
   "providers": {
+    "openai": {
+      "modelOverrides": {
+        "gpt-6-astra": { "contextWindow": 1050000 },
+        "gpt-6-luna": { "contextWindow": 1050000 },
+        "gpt-6.1-sol": { "contextWindow": 1050000 },
+        "gpt-6.1-terra": { "contextWindow": 1050000 }
+      }
+    },
+    "xai": {
+      "modelOverrides": {
+        "grok-4.6": { "contextWindow": 500000 },
+        "grok-4.7": { "contextWindow": 500000 }
+      }
+    },
     "deepseek": {
       "baseUrl": "https://api.deepseek.com/v1",
       "api": "openai-completions",
       "apiKey": "$DEEPSEEK_API_KEY",
       "compat": {
         "supportsDeveloperRole": false
+      },
+      "modelOverrides": {
+        "deepseek-v4-pro": { "contextWindow": 1000000 },
+        "deepseek-flash": { "contextWindow": 1000000 }
       },
       "models": [
         {

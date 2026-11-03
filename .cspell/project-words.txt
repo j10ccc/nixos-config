@@ -33,6 +33,7 @@ fzfa
 ghostty
 glab
 Goldenage
+gotgenes
 gsub
 halfpage
 herdr
@@ -44,6 +45,7 @@ iina
 ijkl
 incsearch
 jnoortheen
+juicesharp
 keeporder
 keybind
 keybinds
@@ -58,6 +60,7 @@ mksystem
 Monaspace
 Monaspice
 multica
+narumitw
 netrc
 nixd
 nixfmt
@@ -72,10 +75,12 @@ noti
 oneshot
 Pathbar
 pkgs
+plannotator
 pname
 powerline
 prettybat
 rendermode
+rpiv
 sess
 snipaste
 soco

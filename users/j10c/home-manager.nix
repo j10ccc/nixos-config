@@ -6,6 +6,7 @@ in
 {
   imports = [
     ../../modules/codex
+    ../../modules/pi
     ../../modules/bat
     ../../modules/fzf
     ../../modules/lazygit
