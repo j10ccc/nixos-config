@@ -7,6 +7,7 @@ extras into the file it actually looks at:
 | Agent | Path |
 | --- | --- |
 | Claude Code | `~/.claude/CLAUDE.md` |
+| Codex | `~/.codex/AGENTS.md` |
 | pi | `~/.pi/agent/AGENTS.md` |
 
 Only rules that hold across agents belong here. Tool names, hooks and directory

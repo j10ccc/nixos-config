@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+    ../../modules/codex
     ../../modules/bat
     ../../modules/fzf
     ../../modules/lazygit
