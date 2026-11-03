@@ -1,4 +1,15 @@
 {
+  "quietStartup": "header",
+  "enabledModels": [
+    "openai/gpt-6-astra",
+    "openai/gpt-6-luna",
+    "openai/gpt-6.1-sol",
+    "openai/gpt-6.1-terra",
+    "xai/grok-4.6",
+    "xai/grok-4.7",
+    "deepseek/deepseek-v4-pro",
+    "deepseek/deepseek-flash"
+  ],
   "packages": [
     "npm:pi-web-access",
     "npm:@juicesharp/rpiv-ask-user-question",
