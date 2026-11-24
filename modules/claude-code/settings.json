@@ -41,7 +41,9 @@
   },
   "env": {
     "SAFETY_NET_STRICT": "1",
-    "SAFETY_NET_PARANOID_INTERPRETERS": "1"
+    "SAFETY_NET_PARANOID_INTERPRETERS": "1",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "gemini-4-argon-medium",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-4-hydrogen-medium"
   },
   "permissions": {
     "defaultMode": "bypassPermissions",
