@@ -42,8 +42,10 @@
   "env": {
     "SAFETY_NET_STRICT": "1",
     "SAFETY_NET_PARANOID_INTERPRETERS": "1",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "gemini-4-neon-medium",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "gemini-4-argon-medium",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-4-hydrogen-medium"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gemini-4-hydrogen-medium",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "gemini-4-carbon-medium"
   },
   "permissions": {
     "defaultMode": "bypassPermissions",
