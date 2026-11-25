@@ -9,7 +9,9 @@
     "options": [
       { "model": "gemini-4-neon-medium", "label": "Gemini 4 Neon · medium" },
       { "model": "gemini-4-neon-high", "label": "Gemini 4 Neon · high" },
+      { "model": "gemini-4-argon-medium", "label": "Gemini 4 Argon · medium" },
       { "model": "gemini-4-carbon-medium", "label": "Gemini 4 Carbon · medium" },
+      { "model": "gemini-4-hydrogen-medium", "label": "Gemini 4 Hydrogen · medium" },
       { "model": "claude-opus-5-5-medium", "label": "Claude Opus 5.5 · medium", "behavesAs": "claude-opus-5-5" },
       { "model": "claude-sonnet-5-5-high", "label": "Claude Sonnet 5.5 · high", "behavesAs": "claude-sonnet-5-5" },
       { "model": "claude-sonnet-5-5-medium", "label": "Claude Sonnet 5.5 · medium", "behavesAs": "claude-sonnet-5-5" }
